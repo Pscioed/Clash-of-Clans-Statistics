@@ -1,0 +1,2894 @@
+{
+	"__inputs": [
+	  {
+		"name": "DS_LOCALHOST_CLASH_OF_CLANS",
+		"label": "localhost clash_of_clans",
+		"description": "",
+		"type": "datasource",
+		"pluginId": "mssql",
+		"pluginName": "Microsoft SQL Server"
+	  }
+	],
+	"__elements": [],
+	"__requires": [
+	  {
+		"type": "panel",
+		"id": "bargauge",
+		"name": "Bar gauge",
+		"version": ""
+	  },
+	  {
+		"type": "grafana",
+		"id": "grafana",
+		"name": "Grafana",
+		"version": "8.4.2"
+	  },
+	  {
+		"type": "panel",
+		"id": "michaeldmoore-scatter-panel",
+		"name": "Scatter",
+		"version": "1.1.0"
+	  },
+	  {
+		"type": "datasource",
+		"id": "mssql",
+		"name": "Microsoft SQL Server",
+		"version": "1.0.0"
+	  },
+	  {
+		"type": "panel",
+		"id": "table",
+		"name": "Table",
+		"version": ""
+	  },
+	  {
+		"type": "panel",
+		"id": "timeseries",
+		"name": "Time series",
+		"version": ""
+	  }
+	],
+	"annotations": {
+	  "list": [
+		{
+		  "builtIn": 1,
+		  "datasource": "-- Grafana --",
+		  "enable": true,
+		  "hide": true,
+		  "iconColor": "rgba(0, 211, 255, 1)",
+		  "name": "Annotations & Alerts",
+		  "target": {
+			"limit": 100,
+			"matchAny": false,
+			"tags": [],
+			"type": "dashboard"
+		  },
+		  "type": "dashboard"
+		}
+	  ]
+	},
+	"editable": true,
+	"fiscalYearStartMonth": 0,
+	"graphTooltip": 0,
+	"id": null,
+	"iteration": 1647717910108,
+	"links": [],
+	"liveNow": false,
+	"panels": [
+	  {
+		"collapsed": true,
+		"gridPos": {
+		  "h": 1,
+		  "w": 24,
+		  "x": 0,
+		  "y": 0
+		},
+		"id": 37,
+		"panels": [
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"custom": {
+				  "align": "auto",
+				  "displayMode": "auto"
+				},
+				"links": [],
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					},
+					{
+					  "color": "red",
+					  "value": 80
+					}
+				  ]
+				}
+			  },
+			  "overrides": [
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Name"
+				  },
+				  "properties": [
+					{
+					  "id": "links",
+					  "value": [
+						{
+						  "title": "",
+						  "url": "d/H00ZeJEnk/clan-statistics?${__all_variables}&${__url_time_range}&var-clans=${__data.fields.Tag:percentencode}"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			},
+			"gridPos": {
+			  "h": 16,
+			  "w": 12,
+			  "x": 0,
+			  "y": 1
+			},
+			"id": 39,
+			"options": {
+			  "footer": {
+				"fields": "",
+				"reducer": [
+				  "sum"
+				],
+				"show": false
+			  },
+			  "showHeader": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "select\n\tlwc.name as 'Name',\n\tlwc.tag as 'Tag'\nfrom\n\tleague_wars lw\n\tjoin league_war_details lwd on lwd.league_war_id = lw.id\n\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\nwhere\n\t$__timeFilter(lwd.end_time)\nunion\nselect\n\twc.name as 'Name',\n\twc.tag as 'Tag'\nfrom\n\twars w\n\tjoin war_clans wc on wc.war_id = w.id\nwhere\n\t$__timeFilter(w.end_time)\nunion\nselect\n\tc.name as 'Name',\n\tc.tag as 'Tag'\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\nwhere\n\t$__timeFilter(r.timestamp)\norder by\n\tName",
+				"refId": "A"
+			  }
+			],
+			"title": "Clans",
+			"type": "table"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"custom": {
+				  "align": "auto",
+				  "displayMode": "auto"
+				},
+				"links": [],
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					},
+					{
+					  "color": "red",
+					  "value": 80
+					}
+				  ]
+				}
+			  },
+			  "overrides": [
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Name"
+				  },
+				  "properties": [
+					{
+					  "id": "links",
+					  "value": [
+						{
+						  "title": "",
+						  "url": "d/H00ZeJEnk/clan-statistics?${__all_variables}&${__url_time_range}&var-players=${__data.fields.Tag:percentencode}"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			},
+			"gridPos": {
+			  "h": 16,
+			  "w": 12,
+			  "x": 12,
+			  "y": 1
+			},
+			"id": 40,
+			"options": {
+			  "footer": {
+				"fields": "",
+				"reducer": [
+				  "sum"
+				],
+				"show": false
+			  },
+			  "showHeader": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "select\n\tlwcm.name as 'Name',\n\tlwc.name as 'Clan',\n\tlwcm.tag as 'Tag'\nfrom\n\tleague_wars lw\n\tjoin league_war_details lwd on lwd.league_war_id = lw.id\n\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\n\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\nwhere\n\tlwc.tag in ($clans)\n\tand $__timeFilter(lwd.end_time)\nunion\nselect\n\twcm.name as 'Name',\n\twc.name as 'Clan',\n\twcm.tag as 'Tag'\nfrom\n\twars w\n\tjoin war_clans wc on wc.war_id = w.id\n\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\nwhere\n\twc.tag in ($clans)\n\tand $__timeFilter(w.end_time)\nunion\nselect\n\tm.name as 'Name',\n\tc.name as 'Clan',\n\tm.tag as 'Tag'\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tc.tag in ($clans)\n\tand $__timeFilter(r.timestamp)\norder by\n\tName",
+				"refId": "A"
+			  }
+			],
+			"title": "Players",
+			"type": "table"
+		  }
+		],
+		"title": "Filters",
+		"type": "row"
+	  },
+	  {
+		"collapsed": true,
+		"gridPos": {
+		  "h": 1,
+		  "w": 24,
+		  "x": 0,
+		  "y": 1
+		},
+		"id": 2,
+		"panels": [
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"custom": {
+				  "align": "auto",
+				  "displayMode": "auto"
+				},
+				"links": [],
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": [
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Attack Utilization"
+				  },
+				  "properties": [
+					{
+					  "id": "unit",
+					  "value": "percentunit"
+					}
+				  ]
+				},
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Total Destruction"
+				  },
+				  "properties": [
+					{
+					  "id": "unit",
+					  "value": "percent"
+					}
+				  ]
+				}
+			  ]
+			},
+			"gridPos": {
+			  "h": 11,
+			  "w": 24,
+			  "x": 0,
+			  "y": 2
+			},
+			"id": 31,
+			"options": {
+			  "footer": {
+				"fields": "",
+				"reducer": [
+				  "sum"
+				],
+				"show": false
+			  },
+			  "showHeader": true,
+			  "sortBy": [
+				{
+				  "desc": true,
+				  "displayName": "Attack Utilization"
+				}
+			  ]
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, attacks_available int, total_stars int, total_destruction int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm.name as name,\r\n\t\tlwcm.tag as tag,\r\n\t\tlwc.name as clan,\r\n\t\tlwc.tag as clan_tag,\r\n\t\tcount(lwcm.attack_attacker_tag) as attacks_made,\r\n\t\tcount(1) as attacks_available,\r\n\t\tsum(case when lwcm.attack_stars is not null then lwcm.attack_stars else 0 end) as total_stars,\r\n\t\tsum(case when lwcm.attack_destruction_percentage is not null then lwcm.attack_destruction_percentage else 0 end) as total_destruction\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm.name,\r\n\t\tlwcm.tag,\r\n\t\tlwc.name,\r\n\t\tlwc.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tdeclare @attacks_available table (tag nvarchar(16), attacks_available int)\r\n\tinsert into @attacks_available\r\n\tselect\r\n\t\twcm.tag,\r\n\t\tsum(w.attacks_per_member) attacks_available\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm.tag\r\n\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm.name as name,\r\n\t\twcm.tag as tag,\r\n\t\twc.name as clan,\r\n\t\twc.tag as clan_tag,\r\n\t\tcount(wa.attacker_tag) as attacks_made,\r\n\t\taa.attacks_available as attacks_available,\r\n\t\tsum(case when wa.stars is not null then wa.stars else 0 end) as total_stars,\r\n\t\tsum(case when wa.destruction_percentage is not null then wa.destruction_percentage else 0 end) as total_destruction\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin @attacks_available aa on aa.tag = wcm.tag\r\n\t\tleft join war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\tgroup by\r\n\t\twcm.name,\r\n\t\twcm.tag,\r\n\t\twc.name,\r\n\t\twc.tag,\r\n\t\taa.attacks_available\r\nend\r\n\r\nselect\r\n\tname as Name,\r\n\tclan as Clan,\r\n\tsum(attacks_made) / cast(sum(attacks_available) as float) as 'Attack Utilization',\r\n\tsum(attacks_made) as 'Attacks Made',\r\n\tsum(attacks_available) as 'Attacks Available',\r\n\tsum(total_stars) as 'Total Stars',\r\n\tsum(total_destruction) as 'Total Destruction'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag",
+				"refId": "A"
+			  }
+			],
+			"title": "Table",
+			"type": "table"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					}
+				  ]
+				},
+				"unit": "percentunit"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 8,
+			  "x": 0,
+			  "y": 13
+			},
+			"id": 5,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, attacks_available int, total_stars int, total_destruction int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm.name as name,\r\n\t\tlwcm.tag as tag,\r\n\t\tlwc.name as clan,\r\n\t\tlwc.tag as clan_tag,\r\n\t\tcount(lwcm.attack_attacker_tag) as attacks_made,\r\n\t\tcount(1) as attacks_available,\r\n\t\tsum(case when lwcm.attack_stars is not null then lwcm.attack_stars else 0 end) as total_stars,\r\n\t\tsum(case when lwcm.attack_destruction_percentage is not null then lwcm.attack_destruction_percentage else 0 end) as total_destruction\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm.name,\r\n\t\tlwcm.tag,\r\n\t\tlwc.name,\r\n\t\tlwc.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tdeclare @attacks_available table (tag nvarchar(16), attacks_available int)\r\n\tinsert into @attacks_available\r\n\tselect\r\n\t\twcm.tag,\r\n\t\tsum(w.attacks_per_member) attacks_available\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm.tag\r\n\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm.name as name,\r\n\t\twcm.tag as tag,\r\n\t\twc.name as clan,\r\n\t\twc.tag as clan_tag,\r\n\t\tcount(wa.attacker_tag) as attacks_made,\r\n\t\taa.attacks_available as attacks_available,\r\n\t\tsum(case when wa.stars is not null then wa.stars else 0 end) as total_stars,\r\n\t\tsum(case when wa.destruction_percentage is not null then wa.destruction_percentage else 0 end) as total_destruction\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin @attacks_available aa on aa.tag = wcm.tag\r\n\t\tleft join war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\tgroup by\r\n\t\twcm.name,\r\n\t\twcm.tag,\r\n\t\twc.name,\r\n\t\twc.tag,\r\n\t\taa.attacks_available\r\nend\r\n\r\nselect\r\n\tname as Name,\r\n\tsum(attacks_made) / cast(sum(attacks_available) as float) as 'Attack Utilization'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\tsum(attacks_made) / cast(sum(attacks_available) as float) desc",
+				"refId": "A"
+			  }
+			],
+			"title": "Attack Utilization",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 8,
+			  "x": 8,
+			  "y": 13
+			},
+			"id": 9,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, attacks_available int, total_stars int, total_destruction int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm.name as name,\r\n\t\tlwcm.tag as tag,\r\n\t\tlwc.name as clan,\r\n\t\tlwc.tag as clan_tag,\r\n\t\tcount(lwcm.attack_attacker_tag) as attacks_made,\r\n\t\tcount(1) as attacks_available,\r\n\t\tsum(case when lwcm.attack_stars is not null then lwcm.attack_stars else 0 end) as total_stars,\r\n\t\tsum(case when lwcm.attack_destruction_percentage is not null then lwcm.attack_destruction_percentage else 0 end) as total_destruction\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm.name,\r\n\t\tlwcm.tag,\r\n\t\tlwc.name,\r\n\t\tlwc.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tdeclare @attacks_available table (tag nvarchar(16), attacks_available int)\r\n\tinsert into @attacks_available\r\n\tselect\r\n\t\twcm.tag,\r\n\t\tsum(w.attacks_per_member) attacks_available\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm.tag\r\n\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm.name as name,\r\n\t\twcm.tag as tag,\r\n\t\twc.name as clan,\r\n\t\twc.tag as clan_tag,\r\n\t\tcount(wa.attacker_tag) as attacks_made,\r\n\t\taa.attacks_available as attacks_available,\r\n\t\tsum(case when wa.stars is not null then wa.stars else 0 end) as total_stars,\r\n\t\tsum(case when wa.destruction_percentage is not null then wa.destruction_percentage else 0 end) as total_destruction\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin @attacks_available aa on aa.tag = wcm.tag\r\n\t\tleft join war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\tgroup by\r\n\t\twcm.name,\r\n\t\twcm.tag,\r\n\t\twc.name,\r\n\t\twc.tag,\r\n\t\taa.attacks_available\r\nend\r\n\r\nselect\r\n\tname as Name,\r\n\tsum(total_stars) as 'Total Stars'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\tsum(total_stars) desc",
+				"refId": "A"
+			  }
+			],
+			"title": "Total Stars",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					}
+				  ]
+				},
+				"unit": "percent"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 8,
+			  "x": 16,
+			  "y": 13
+			},
+			"id": 16,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, attacks_available int, total_stars int, total_destruction int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm.name as name,\r\n\t\tlwcm.tag as tag,\r\n\t\tlwc.name as clan,\r\n\t\tlwc.tag as clan_tag,\r\n\t\tcount(lwcm.attack_attacker_tag) as attacks_made,\r\n\t\tcount(1) as attacks_available,\r\n\t\tsum(case when lwcm.attack_stars is not null then lwcm.attack_stars else 0 end) as total_stars,\r\n\t\tsum(case when lwcm.attack_destruction_percentage is not null then lwcm.attack_destruction_percentage else 0 end) as total_destruction\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm.name,\r\n\t\tlwcm.tag,\r\n\t\tlwc.name,\r\n\t\tlwc.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tdeclare @attacks_available table (tag nvarchar(16), attacks_available int)\r\n\tinsert into @attacks_available\r\n\tselect\r\n\t\twcm.tag,\r\n\t\tsum(w.attacks_per_member) attacks_available\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm.tag\r\n\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm.name as name,\r\n\t\twcm.tag as tag,\r\n\t\twc.name as clan,\r\n\t\twc.tag as clan_tag,\r\n\t\tcount(wa.attacker_tag) as attacks_made,\r\n\t\taa.attacks_available as attacks_available,\r\n\t\tsum(case when wa.stars is not null then wa.stars else 0 end) as total_stars,\r\n\t\tsum(case when wa.destruction_percentage is not null then wa.destruction_percentage else 0 end) as total_destruction\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin @attacks_available aa on aa.tag = wcm.tag\r\n\t\tleft join war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\tgroup by\r\n\t\twcm.name,\r\n\t\twcm.tag,\r\n\t\twc.name,\r\n\t\twc.tag,\r\n\t\taa.attacks_available\r\nend\r\n\r\nselect\r\n\tname as Name,\r\n\tsum(total_destruction) as 'Total Destruction'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\tsum(total_destruction) desc",
+				"refId": "A"
+			  }
+			],
+			"title": "Total Destruction",
+			"type": "bargauge"
+		  }
+		],
+		"title": "War Participation",
+		"type": "row"
+	  },
+	  {
+		"collapsed": true,
+		"gridPos": {
+		  "h": 1,
+		  "w": 24,
+		  "x": 0,
+		  "y": 2
+		},
+		"id": 8,
+		"panels": [
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"custom": {
+				  "align": "auto",
+				  "displayMode": "auto",
+				  "minWidth": 50
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": [
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Avg Destruction"
+				  },
+				  "properties": [
+					{
+					  "id": "unit",
+					  "value": "percent"
+					}
+				  ]
+				},
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Avg Duration"
+				  },
+				  "properties": [
+					{
+					  "id": "unit",
+					  "value": "s"
+					}
+				  ]
+				}
+			  ]
+			},
+			"gridPos": {
+			  "h": 11,
+			  "w": 24,
+			  "x": 0,
+			  "y": 3
+			},
+			"id": 11,
+			"options": {
+			  "footer": {
+				"fields": "",
+				"reducer": [
+				  "sum"
+				],
+				"show": false
+			  },
+			  "showHeader": true,
+			  "sortBy": [
+				{
+				  "desc": true,
+				  "displayName": "Count"
+				}
+			  ]
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm.name as name,\r\n\t\tlwcm.tag as tag,\r\n\t\tlwc.name as clan,\r\n\t\tlwc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm.map_position) as 'total_position',\r\n\t\tsum(lwcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\t\tand lwcm.attack_attacker_tag is not null\r\n\tgroup by\r\n\t\tlwcm.name,\r\n\t\tlwcm.tag,\r\n\t\tlwc.name,\r\n\t\tlwc.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm.name as name,\r\n\t\twcm.tag as tag,\r\n\t\twc.name as clan,\r\n\t\twc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm.map_position) as 'total_position',\r\n\t\tsum(wcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm.name,\r\n\t\twcm.tag,\r\n\t\twc.name,\r\n\t\twc.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\tclan as 'Clan',\r\n\tsum(attacks_made) as 'Count',\r\n\tsum(total_destruction) / cast(sum(attacks_made) as float) as 'Destruction',\r\n\tsum(total_stars) / cast(sum(attacks_made) as float) as 'Stars',\r\n\tsum(total_duration) / cast(sum(attacks_made) as float) as 'Duration',\r\n\tsum(total_position) / cast(sum(attacks_made) as float) as 'Position',\r\n\tsum(total_enemy_position) / cast(sum(attacks_made) as float) as 'Enemy Position',\r\n\t(sum(total_enemy_position) - sum(total_position)) / cast(sum(attacks_made) as float) as 'Position Diff',\r\n\tsum(total_townhall) / cast(sum(attacks_made) as float) as 'Townhall',\r\n\tsum(total_enemy_townhall) / cast(sum(attacks_made) as float) as 'Enemy Townhall',\r\n\t(sum(total_enemy_townhall) - sum(total_townhall)) / cast(sum(attacks_made) as float) as 'Townhall Diff'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag",
+				"refId": "A"
+			  }
+			],
+			"title": "Table",
+			"type": "table"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "percent"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 0,
+			  "y": 14
+			},
+			"id": 6,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm.name as name,\r\n\t\tlwcm.tag as tag,\r\n\t\tlwc.name as clan,\r\n\t\tlwc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm.map_position) as 'total_position',\r\n\t\tsum(lwcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\t\tand lwcm.attack_attacker_tag is not null\r\n\tgroup by\r\n\t\tlwcm.name,\r\n\t\tlwcm.tag,\r\n\t\tlwc.name,\r\n\t\tlwc.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm.name as name,\r\n\t\twcm.tag as tag,\r\n\t\twc.name as clan,\r\n\t\twc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm.map_position) as 'total_position',\r\n\t\tsum(wcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm.name,\r\n\t\twcm.tag,\r\n\t\twc.name,\r\n\t\twc.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\tsum(total_destruction) / cast(sum(attacks_made) as float) as 'Destruction'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\tsum(total_destruction) / cast(sum(attacks_made) as float) desc",
+				"refId": "A"
+			  }
+			],
+			"title": "Destruction",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 4,
+			  "y": 14
+			},
+			"id": 10,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm.name as name,\r\n\t\tlwcm.tag as tag,\r\n\t\tlwc.name as clan,\r\n\t\tlwc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm.map_position) as 'total_position',\r\n\t\tsum(lwcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\t\tand lwcm.attack_attacker_tag is not null\r\n\tgroup by\r\n\t\tlwcm.name,\r\n\t\tlwcm.tag,\r\n\t\tlwc.name,\r\n\t\tlwc.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm.name as name,\r\n\t\twcm.tag as tag,\r\n\t\twc.name as clan,\r\n\t\twc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm.map_position) as 'total_position',\r\n\t\tsum(wcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm.name,\r\n\t\twcm.tag,\r\n\t\twc.name,\r\n\t\twc.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\tsum(total_stars) / cast(sum(attacks_made) as float) as 'Stars'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\tsum(total_stars) / cast(sum(attacks_made) as float) desc",
+				"refId": "A"
+			  }
+			],
+			"title": "Stars",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 8,
+			  "y": 14
+			},
+			"id": 17,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm.name as name,\r\n\t\tlwcm.tag as tag,\r\n\t\tlwc.name as clan,\r\n\t\tlwc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm.map_position) as 'total_position',\r\n\t\tsum(lwcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\t\tand lwcm.attack_attacker_tag is not null\r\n\tgroup by\r\n\t\tlwcm.name,\r\n\t\tlwcm.tag,\r\n\t\tlwc.name,\r\n\t\tlwc.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm.name as name,\r\n\t\twcm.tag as tag,\r\n\t\twc.name as clan,\r\n\t\twc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm.map_position) as 'total_position',\r\n\t\tsum(wcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm.name,\r\n\t\twcm.tag,\r\n\t\twc.name,\r\n\t\twc.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\tsum(total_enemy_position) / cast(sum(attacks_made) as float) as 'Enemy Position'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\tsum(total_enemy_position) / cast(sum(attacks_made) as float) asc",
+				"refId": "A"
+			  }
+			],
+			"title": "Enemy Position",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 12,
+			  "y": 14
+			},
+			"id": 18,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm.name as name,\r\n\t\tlwcm.tag as tag,\r\n\t\tlwc.name as clan,\r\n\t\tlwc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm.map_position) as 'total_position',\r\n\t\tsum(lwcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\t\tand lwcm.attack_attacker_tag is not null\r\n\tgroup by\r\n\t\tlwcm.name,\r\n\t\tlwcm.tag,\r\n\t\tlwc.name,\r\n\t\tlwc.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm.name as name,\r\n\t\twcm.tag as tag,\r\n\t\twc.name as clan,\r\n\t\twc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm.map_position) as 'total_position',\r\n\t\tsum(wcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm.name,\r\n\t\twcm.tag,\r\n\t\twc.name,\r\n\t\twc.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\t(sum(total_enemy_position) - sum(total_position)) / cast(sum(attacks_made) as float) as 'Position Diff'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\t(sum(total_enemy_position) - sum(total_position)) / cast(sum(attacks_made) as float) asc",
+				"refId": "A"
+			  }
+			],
+			"title": "Position Diff",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 16,
+			  "y": 14
+			},
+			"id": 60,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm.name as name,\r\n\t\tlwcm.tag as tag,\r\n\t\tlwc.name as clan,\r\n\t\tlwc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm.map_position) as 'total_position',\r\n\t\tsum(lwcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\t\tand lwcm.attack_attacker_tag is not null\r\n\tgroup by\r\n\t\tlwcm.name,\r\n\t\tlwcm.tag,\r\n\t\tlwc.name,\r\n\t\tlwc.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm.name as name,\r\n\t\twcm.tag as tag,\r\n\t\twc.name as clan,\r\n\t\twc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm.map_position) as 'total_position',\r\n\t\tsum(wcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm.name,\r\n\t\twcm.tag,\r\n\t\twc.name,\r\n\t\twc.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\tsum(total_enemy_townhall) / cast(sum(attacks_made) as float) as 'Enemy Townhall'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\tsum(total_enemy_townhall) / cast(sum(attacks_made) as float) desc",
+				"refId": "A"
+			  }
+			],
+			"title": "Enemy Townhall",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 20,
+			  "y": 14
+			},
+			"id": 61,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm.name as name,\r\n\t\tlwcm.tag as tag,\r\n\t\tlwc.name as clan,\r\n\t\tlwc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm.map_position) as 'total_position',\r\n\t\tsum(lwcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\t\tand lwcm.attack_attacker_tag is not null\r\n\tgroup by\r\n\t\tlwcm.name,\r\n\t\tlwcm.tag,\r\n\t\tlwc.name,\r\n\t\tlwc.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm.name as name,\r\n\t\twcm.tag as tag,\r\n\t\twc.name as clan,\r\n\t\twc.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm.map_position) as 'total_position',\r\n\t\tsum(wcm2.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm2.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm.name,\r\n\t\twcm.tag,\r\n\t\twc.name,\r\n\t\twc.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\t(sum(total_enemy_townhall) - sum(total_townhall)) / cast(sum(attacks_made) as float) as 'Townhall Diff'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\t(sum(total_enemy_townhall) - sum(total_townhall)) / cast(sum(attacks_made) as float) desc",
+				"refId": "A"
+			  }
+			],
+			"title": "Townhall diff",
+			"type": "bargauge"
+		  }
+		],
+		"title": "War Attacks",
+		"type": "row"
+	  },
+	  {
+		"collapsed": true,
+		"gridPos": {
+		  "h": 1,
+		  "w": 24,
+		  "x": 0,
+		  "y": 3
+		},
+		"id": 13,
+		"panels": [
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"custom": {
+				  "align": "auto",
+				  "displayMode": "auto",
+				  "minWidth": 50
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": [
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Avg Destruction"
+				  },
+				  "properties": [
+					{
+					  "id": "unit",
+					  "value": "percent"
+					}
+				  ]
+				},
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Avg Duration"
+				  },
+				  "properties": [
+					{
+					  "id": "unit",
+					  "value": "s"
+					}
+				  ]
+				}
+			  ]
+			},
+			"gridPos": {
+			  "h": 11,
+			  "w": 24,
+			  "x": 0,
+			  "y": 4
+			},
+			"id": 14,
+			"options": {
+			  "footer": {
+				"fields": "",
+				"reducer": [
+				  "sum"
+				],
+				"show": false
+			  },
+			  "showHeader": true,
+			  "sortBy": [
+				{
+				  "desc": true,
+				  "displayName": "Count"
+				}
+			  ]
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm2.name as name,\r\n\t\tlwcm2.tag as tag,\r\n\t\tlwc2.name as clan,\r\n\t\tlwc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm2.map_position) as 'total_position',\r\n\t\tsum(lwcm.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc2.tag in ($clans)\r\n\t\tand lwcm2.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm2.name,\r\n\t\tlwcm2.tag,\r\n\t\tlwc2.name,\r\n\t\tlwc2.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm2.name as name,\r\n\t\twcm2.tag as tag,\r\n\t\twc2.name as clan,\r\n\t\twc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm2.map_position) as 'total_position',\r\n\t\tsum(wcm.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc2.tag in ($clans)\r\n\t\tand wcm2.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm2.name,\r\n\t\twcm2.tag,\r\n\t\twc2.name,\r\n\t\twc2.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\tclan as 'Clan',\r\n\tsum(attacks_made) as 'Count',\r\n\tsum(total_destruction) / cast(sum(attacks_made) as float) as 'Destruction',\r\n\tsum(total_stars) / cast(sum(attacks_made) as float) as 'Stars',\r\n\tsum(total_duration) / cast(sum(attacks_made) as float) as 'Duration',\r\n\tsum(total_position) / cast(sum(attacks_made) as float) as 'Position',\r\n\tsum(total_enemy_position) / cast(sum(attacks_made) as float) as 'Enemy Position',\r\n\t(sum(total_enemy_position) - sum(total_position)) / cast(sum(attacks_made) as float) as 'Position Diff',\r\n\tsum(total_townhall) / cast(sum(attacks_made) as float) as 'Townhall',\r\n\tsum(total_enemy_townhall) / cast(sum(attacks_made) as float) as 'Enemy Townhall',\r\n\t(sum(total_enemy_townhall) - sum(total_townhall)) / cast(sum(attacks_made) as float) as 'Townhall Diff'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag",
+				"refId": "A"
+			  }
+			],
+			"title": "Table",
+			"type": "table"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "percent"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 0,
+			  "y": 15
+			},
+			"id": 19,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm2.name as name,\r\n\t\tlwcm2.tag as tag,\r\n\t\tlwc2.name as clan,\r\n\t\tlwc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm2.map_position) as 'total_position',\r\n\t\tsum(lwcm.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc2.tag in ($clans)\r\n\t\tand lwcm2.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm2.name,\r\n\t\tlwcm2.tag,\r\n\t\tlwc2.name,\r\n\t\tlwc2.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm2.name as name,\r\n\t\twcm2.tag as tag,\r\n\t\twc2.name as clan,\r\n\t\twc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm2.map_position) as 'total_position',\r\n\t\tsum(wcm.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc2.tag in ($clans)\r\n\t\tand wcm2.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm2.name,\r\n\t\twcm2.tag,\r\n\t\twc2.name,\r\n\t\twc2.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\tsum(total_destruction) / cast(sum(attacks_made) as float) as 'Destruction'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\tsum(total_destruction) / cast(sum(attacks_made) as float) asc",
+				"refId": "A"
+			  }
+			],
+			"title": "Destruction",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 4,
+			  "y": 15
+			},
+			"id": 20,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm2.name as name,\r\n\t\tlwcm2.tag as tag,\r\n\t\tlwc2.name as clan,\r\n\t\tlwc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm2.map_position) as 'total_position',\r\n\t\tsum(lwcm.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc2.tag in ($clans)\r\n\t\tand lwcm2.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm2.name,\r\n\t\tlwcm2.tag,\r\n\t\tlwc2.name,\r\n\t\tlwc2.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm2.name as name,\r\n\t\twcm2.tag as tag,\r\n\t\twc2.name as clan,\r\n\t\twc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm2.map_position) as 'total_position',\r\n\t\tsum(wcm.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc2.tag in ($clans)\r\n\t\tand wcm2.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm2.name,\r\n\t\twcm2.tag,\r\n\t\twc2.name,\r\n\t\twc2.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\tsum(total_stars) / cast(sum(attacks_made) as float) as 'Stars'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\tsum(total_stars) / cast(sum(attacks_made) as float) asc",
+				"refId": "A"
+			  }
+			],
+			"title": "Stars",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 8,
+			  "y": 15
+			},
+			"id": 21,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm2.name as name,\r\n\t\tlwcm2.tag as tag,\r\n\t\tlwc2.name as clan,\r\n\t\tlwc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm2.map_position) as 'total_position',\r\n\t\tsum(lwcm.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc2.tag in ($clans)\r\n\t\tand lwcm2.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm2.name,\r\n\t\tlwcm2.tag,\r\n\t\tlwc2.name,\r\n\t\tlwc2.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm2.name as name,\r\n\t\twcm2.tag as tag,\r\n\t\twc2.name as clan,\r\n\t\twc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm2.map_position) as 'total_position',\r\n\t\tsum(wcm.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc2.tag in ($clans)\r\n\t\tand wcm2.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm2.name,\r\n\t\twcm2.tag,\r\n\t\twc2.name,\r\n\t\twc2.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\tsum(total_enemy_position) / cast(sum(attacks_made) as float) as 'Enemy Position'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\tsum(total_enemy_position) / cast(sum(attacks_made) as float) asc",
+				"refId": "A"
+			  }
+			],
+			"title": "Enemy Position",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 12,
+			  "y": 15
+			},
+			"id": 22,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm2.name as name,\r\n\t\tlwcm2.tag as tag,\r\n\t\tlwc2.name as clan,\r\n\t\tlwc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm2.map_position) as 'total_position',\r\n\t\tsum(lwcm.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc2.tag in ($clans)\r\n\t\tand lwcm2.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm2.name,\r\n\t\tlwcm2.tag,\r\n\t\tlwc2.name,\r\n\t\tlwc2.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm2.name as name,\r\n\t\twcm2.tag as tag,\r\n\t\twc2.name as clan,\r\n\t\twc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm2.map_position) as 'total_position',\r\n\t\tsum(wcm.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc2.tag in ($clans)\r\n\t\tand wcm2.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm2.name,\r\n\t\twcm2.tag,\r\n\t\twc2.name,\r\n\t\twc2.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\t(sum(total_enemy_position) - sum(total_position)) / cast(sum(attacks_made) as float) as 'Position Diff'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\t(sum(total_enemy_position) - sum(total_position)) / cast(sum(attacks_made) as float) asc",
+				"refId": "A"
+			  }
+			],
+			"title": "Position Diff",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 16,
+			  "y": 15
+			},
+			"id": 62,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm2.name as name,\r\n\t\tlwcm2.tag as tag,\r\n\t\tlwc2.name as clan,\r\n\t\tlwc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm2.map_position) as 'total_position',\r\n\t\tsum(lwcm.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc2.tag in ($clans)\r\n\t\tand lwcm2.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm2.name,\r\n\t\tlwcm2.tag,\r\n\t\tlwc2.name,\r\n\t\tlwc2.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm2.name as name,\r\n\t\twcm2.tag as tag,\r\n\t\twc2.name as clan,\r\n\t\twc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm2.map_position) as 'total_position',\r\n\t\tsum(wcm.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc2.tag in ($clans)\r\n\t\tand wcm2.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm2.name,\r\n\t\twcm2.tag,\r\n\t\twc2.name,\r\n\t\twc2.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\tsum(total_enemy_townhall) / cast(sum(attacks_made) as float) as 'Enemy Townhall'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\tsum(total_enemy_townhall) / cast(sum(attacks_made) as float) desc",
+				"refId": "A"
+			  }
+			],
+			"title": "Enemy Townhall",
+			"type": "bargauge"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 4,
+			  "x": 20,
+			  "y": 15
+			},
+			"id": 63,
+			"options": {
+			  "displayMode": "basic",
+			  "orientation": "horizontal",
+			  "reduceOptions": {
+				"calcs": [
+				  "lastNotNull"
+				],
+				"fields": "",
+				"limit": 1000,
+				"values": true
+			  },
+			  "showUnfilled": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_stats table (name nvarchar(256), tag nvarchar(16), clan nvarchar(256), clan_tag nvarchar(16), attacks_made int, total_stars int, total_destruction int, total_duration int, total_position int, total_enemy_position int, total_townhall int, total_enemy_townhall int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlwcm2.name as name,\r\n\t\tlwcm2.tag as tag,\r\n\t\tlwc2.name as clan,\r\n\t\tlwc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(lwcm.attack_stars) as 'total_stars',\r\n\t\tsum(lwcm.attack_destruction_percentage) as 'total_destruction',\r\n\t\tsum(lwcm.attack_duration) as 'total_duration',\r\n\t\tsum(lwcm2.map_position) as 'total_position',\r\n\t\tsum(lwcm.map_position) as 'total_enemy_position',\r\n\t\tsum(lwcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(lwcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc2.tag in ($clans)\r\n\t\tand lwcm2.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm2.name,\r\n\t\tlwcm2.tag,\r\n\t\tlwc2.name,\r\n\t\tlwc2.tag\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\twcm2.name as name,\r\n\t\twcm2.tag as tag,\r\n\t\twc2.name as clan,\r\n\t\twc2.tag as clan_tag,\r\n\t\tcount(1) as attacks_made,\r\n\t\tsum(wa.stars) as 'total_stars',\r\n\t\tsum(wa.destruction_percentage) as 'total_destruction',\r\n\t\tsum(wa.duration) as 'total_duration',\r\n\t\tsum(wcm2.map_position) as 'total_position',\r\n\t\tsum(wcm.map_position) as 'total_enemy_position',\r\n\t\tsum(wcm2.town_hall_level) as 'total_townhall',\r\n\t\tsum(wcm.town_hall_level) as 'total_enemy_townhall'\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc2.tag in ($clans)\r\n\t\tand wcm2.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm2.name,\r\n\t\twcm2.tag,\r\n\t\twc2.name,\r\n\t\twc2.tag\r\nend\r\n\r\nselect\r\n\tname as 'Name',\r\n\t(sum(total_enemy_townhall) - sum(total_townhall)) / cast(sum(attacks_made) as float) as 'Townhall Diff'\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\tname,\r\n\ttag,\r\n\tclan,\r\n\tclan_tag\r\norder by\r\n\t(sum(total_enemy_townhall) - sum(total_townhall)) / cast(sum(attacks_made) as float) desc",
+				"refId": "A"
+			  }
+			],
+			"title": "Townhall diff",
+			"type": "bargauge"
+		  }
+		],
+		"title": "War Defenses",
+		"type": "row"
+	  },
+	  {
+		"collapsed": true,
+		"gridPos": {
+		  "h": 1,
+		  "w": 24,
+		  "x": 0,
+		  "y": 4
+		},
+		"id": 24,
+		"panels": [
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"custom": {
+				  "align": "auto",
+				  "displayMode": "auto",
+				  "filterable": false
+				},
+				"links": [],
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": [
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Attack Utilization"
+				  },
+				  "properties": [
+					{
+					  "id": "unit",
+					  "value": "percentunit"
+					}
+				  ]
+				}
+			  ]
+			},
+			"gridPos": {
+			  "h": 11,
+			  "w": 24,
+			  "x": 0,
+			  "y": 5
+			},
+			"id": 65,
+			"options": {
+			  "footer": {
+				"fields": "",
+				"reducer": [
+				  "sum"
+				],
+				"show": false
+			  },
+			  "showHeader": true,
+			  "sortBy": []
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @latest_request_id int = (select top 1 id from requests order by timestamp desc)\r\ndeclare @latest_members table (tag nvarchar(16), name nvarchar(256))\r\ninsert into @latest_members\r\nselect\r\n\tm.tag,\r\n\tm.name\r\nfrom\r\n\trequests r\r\n\tjoin clans c on c.request_id = r.id\r\n\tjoin members m on m.clan_id = c.id\r\nwhere\r\n\tc.tag in ($clans)\r\n\tand m.tag in ($players)\r\n\tand r.id = @latest_request_id\r\n\r\ndeclare @join_date table (tag nvarchar(16), join_date datetime)\r\ninsert into @join_date\r\nselect\r\n\tlm.tag,\r\n\tmin(r.timestamp)\r\nfrom\r\n\t@latest_members lm\r\n\tjoin members m on m.tag = lm.tag\r\n\tjoin clans c on c.id = m.clan_id\r\n\tjoin requests r on r.id = c.request_id\r\ngroup by\r\n\tlm.tag\r\n\r\ndeclare @attack_stats table (tag nvarchar(16), attacks_made int, attacks_available int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlm.tag as tag,\r\n\t\tsum(case when $__timeFilter(lwd.end_time) and lwcm.attack_attacker_tag is not null then 1 else 0 end) as attacks_made,\r\n\t\tsum(case when $__timeFilter(lwd.end_time) then 1 else 0 end) as attacks_available\r\n\tfrom\r\n\t\t@latest_members lm\r\n\t\tleft join league_war_clan_members lwcm on lwcm.tag = lm.tag\r\n\t\tleft join league_war_clans lwc on lwc.id = lwcm.league_war_clan_id\r\n\t\tleft join league_wars lw on lw.id = lwc.league_war_id\r\n\t\tleft join league_war_details lwd on lwd.league_war_id = lw.id\r\n\tgroup by\r\n\t\tlm.tag\r\nend\r\n\r\nif '$normalwars' = 'Yes' begin\r\n\tdeclare @attacks_available table (tag nvarchar(16), attacks_available int)\r\n\tinsert into @attacks_available\r\n\tselect\r\n\t\tlm.tag,\r\n\t\tsum(case when $__timeFilter(w.end_time) then w.attacks_per_member else 0 end) attacks_available\r\n\tfrom\r\n\t\t@latest_members lm\r\n\t\tleft join war_clan_members wcm on wcm.tag = lm.tag\r\n\t\tleft join war_clans wc on wc.id = wcm.war_clan_id\r\n\t\tleft join wars w on w.id = wc.war_id\r\n\tgroup by\r\n\t\tlm.tag\r\n\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlm.tag as tag,\r\n\t\tsum(case when $__timeFilter(w.end_time) and wa.id is not null then 1 else 0 end) as attacks_made,\r\n\t\taa.attacks_available as attacks_available\r\n\tfrom\r\n\t\t@latest_members lm\r\n\t\tjoin @attacks_available aa on aa.tag = lm.tag\r\n\t\tleft join war_clan_members wcm on wcm.tag = lm.tag\r\n\t\tleft join war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tleft join war_clans wc on wc.id = wcm.war_clan_id\r\n\t\tleft join wars w on w.id = wc.war_id\r\n\tgroup by\r\n\t\tlm.tag,\r\n\t\taa.attacks_available\r\nend\r\n\r\ndeclare @attack_stats_grouped table (tag nvarchar(16), attacks_made int, attacks_available int)\r\ninsert into @attack_stats_grouped\r\nselect\r\n\ttag,\r\n\tsum(attacks_made),\r\n\tsum(attacks_available)\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\ttag\r\n\r\nselect\r\n\tlm.name as 'Name',\r\n\tjd.join_date as 'Joined',\r\n\tcase when asg.attacks_available > 0 then asg.attacks_made / cast(asg.attacks_available as float) else null end as 'Attack Utilization',\r\n\tasg.attacks_made as 'Attacks Made',\r\n\tasg.attacks_available as 'Attacks Available'\r\nfrom\r\n\t@latest_members lm\r\n\tjoin @join_date jd on jd.tag = lm.tag\r\n\tjoin @attack_stats_grouped asg on asg.tag = lm.tag\r\norder by\r\n\tcase when asg.attacks_available > 0 then asg.attacks_made / cast(asg.attacks_available as float) else 0 end desc,\r\n\tasg.attacks_available asc,\r\n\tjd.join_date desc\r\n",
+				"refId": "A"
+			  }
+			],
+			"title": "Table",
+			"type": "table"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "palette-classic"
+				},
+				"custom": {
+				  "axisLabel": "",
+				  "axisPlacement": "auto",
+				  "axisSoftMin": 0,
+				  "barAlignment": 0,
+				  "drawStyle": "line",
+				  "fillOpacity": 0,
+				  "gradientMode": "none",
+				  "hideFrom": {
+					"legend": false,
+					"tooltip": false,
+					"viz": false
+				  },
+				  "lineInterpolation": "linear",
+				  "lineWidth": 1,
+				  "pointSize": 5,
+				  "scaleDistribution": {
+					"type": "linear"
+				  },
+				  "showPoints": "auto",
+				  "spanNulls": false,
+				  "stacking": {
+					"group": "A",
+					"mode": "none"
+				  },
+				  "thresholdsStyle": {
+					"mode": "off"
+				  }
+				},
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					},
+					{
+					  "color": "red",
+					  "value": 80
+					}
+				  ]
+				}
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 8,
+			  "x": 0,
+			  "y": 16
+			},
+			"id": 26,
+			"options": {
+			  "legend": {
+				"calcs": [],
+				"displayMode": "hidden",
+				"placement": "bottom"
+			  },
+			  "tooltip": {
+				"mode": "single",
+				"sort": "none"
+			  }
+			},
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "time_series",
+				"rawSql": "select\n\tr.timestamp as time,\n\tc.members as 'Members'\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\nwhere\n\t$__timeFilter(r.timestamp)\norder by\n\tr.timestamp",
+				"refId": "A"
+			  }
+			],
+			"title": "Members",
+			"type": "timeseries"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "palette-classic"
+				},
+				"custom": {
+				  "axisLabel": "",
+				  "axisPlacement": "auto",
+				  "axisSoftMin": 0,
+				  "barAlignment": -1,
+				  "drawStyle": "bars",
+				  "fillOpacity": 30,
+				  "gradientMode": "none",
+				  "hideFrom": {
+					"legend": false,
+					"tooltip": false,
+					"viz": false
+				  },
+				  "lineInterpolation": "linear",
+				  "lineWidth": 1,
+				  "pointSize": 5,
+				  "scaleDistribution": {
+					"type": "linear"
+				  },
+				  "showPoints": "auto",
+				  "spanNulls": false,
+				  "stacking": {
+					"group": "A",
+					"mode": "none"
+				  },
+				  "thresholdsStyle": {
+					"mode": "off"
+				  }
+				},
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					},
+					{
+					  "color": "red",
+					  "value": 80
+					}
+				  ]
+				}
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 8,
+			  "x": 8,
+			  "y": 16
+			},
+			"id": 27,
+			"options": {
+			  "legend": {
+				"calcs": [],
+				"displayMode": "hidden",
+				"placement": "bottom"
+			  },
+			  "tooltip": {
+				"mode": "single",
+				"sort": "none"
+			  }
+			},
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "time_series",
+				"rawSql": "select\r\n\tlwd.end_time as time,\r\n\tcount(lwcm.attack_attacker_tag) as 'Attacks Made'\r\nfrom\r\n\tleague_wars lw\r\n\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\nwhere\r\n\tlwc.tag in ($clans)\r\n\tand lwcm.tag in ($players)\r\n\tand $__timeFilter(lwd.end_time)\r\n\tand lwc.tag in (select distinct tag from clans)\r\n\tand '$warleagues' = 'Yes'\r\ngroup by\r\n\tlwd.end_time\r\nunion\r\nselect\r\n\tw.end_time as time,\r\n\tcount(1) as 'Attacks Made'\r\nfrom\r\n\twars w\r\n\tjoin war_clans wc on wc.war_id = w.id\r\n\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\nwhere\r\n\twc.tag in ($clans)\r\n\tand wcm.tag in ($players)\r\n\tand $__timeFilter(w.end_time)\r\n\tand wc.tag in (select distinct tag from clans)\r\n\tand '$normalwars' = 'Yes'\r\ngroup by\r\n\tw.end_time\r\norder by\r\n\tend_time",
+				"refId": "A"
+			  }
+			],
+			"title": "Attacks Made",
+			"type": "timeseries"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "palette-classic"
+				},
+				"custom": {
+				  "axisLabel": "",
+				  "axisPlacement": "auto",
+				  "axisSoftMin": 0,
+				  "barAlignment": -1,
+				  "drawStyle": "bars",
+				  "fillOpacity": 30,
+				  "gradientMode": "none",
+				  "hideFrom": {
+					"legend": false,
+					"tooltip": false,
+					"viz": false
+				  },
+				  "lineInterpolation": "linear",
+				  "lineWidth": 1,
+				  "pointSize": 5,
+				  "scaleDistribution": {
+					"type": "linear"
+				  },
+				  "showPoints": "auto",
+				  "spanNulls": false,
+				  "stacking": {
+					"group": "A",
+					"mode": "none"
+				  },
+				  "thresholdsStyle": {
+					"mode": "off"
+				  }
+				},
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					}
+				  ]
+				}
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 8,
+			  "x": 16,
+			  "y": 16
+			},
+			"id": 28,
+			"options": {
+			  "legend": {
+				"calcs": [],
+				"displayMode": "hidden",
+				"placement": "bottom"
+			  },
+			  "tooltip": {
+				"mode": "single",
+				"sort": "none"
+			  }
+			},
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "time_series",
+				"rawSql": "select\r\n\tlwd.end_time as time,\r\n\tsum(lwcm.attack_stars) as 'Stars'\r\nfrom\r\n\tleague_wars lw\r\n\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\nwhere\r\n\tlwc.tag in ($clans)\r\n\tand lwcm.tag in ($players)\r\n\tand $__timeFilter(lwd.end_time)\r\n\tand lwc.tag in (select distinct tag from clans)\r\n\tand '$warleagues' = 'Yes'\r\ngroup by\r\n\tlwd.end_time\r\nunion\r\nselect\r\n\tw.end_time as time,\r\n\tsum(wa.stars) as 'Stars'\r\nfrom\r\n\twars w\r\n\tjoin war_clans wc on wc.war_id = w.id\r\n\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\nwhere\r\n\twc.tag in ($clans)\r\n\tand wcm.tag in ($players)\r\n\tand $__timeFilter(w.end_time)\r\n\tand wc.tag in (select distinct tag from clans)\r\n\tand '$normalwars' = 'Yes'\r\ngroup by\r\n\tw.end_time\r\norder by\r\n\tend_time",
+				"refId": "A"
+			  }
+			],
+			"title": "Stars",
+			"type": "timeseries"
+		  }
+		],
+		"title": "Clan",
+		"type": "row"
+	  },
+	  {
+		"collapsed": true,
+		"gridPos": {
+		  "h": 1,
+		  "w": 24,
+		  "x": 0,
+		  "y": 5
+		},
+		"id": 30,
+		"panels": [
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"custom": {
+				  "align": "auto",
+				  "displayMode": "auto"
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 11,
+			  "w": 24,
+			  "x": 0,
+			  "y": 6
+			},
+			"id": 41,
+			"options": {
+			  "footer": {
+				"fields": "",
+				"reducer": [
+				  "sum"
+				],
+				"show": false
+			  },
+			  "showHeader": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @record_id int\nselect top 1 @record_id = id from requests order by timestamp desc\nselect\n\tm.name as 'Name',\n\tm.trophies as 'Trophies',\n\tm.versus_trophies as 'Versus Trophies',\n\tm.donations as 'Donations',\n\tm.donations_received as 'Donations Received'\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand $__timeFilter(r.timestamp)\n\tand r.id = @record_id\norder by\n\tm.donations desc,\n\tm.donations_received desc,\n\tm.trophies desc",
+				"refId": "A"
+			  }
+			],
+			"title": "Table",
+			"type": "table"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "palette-classic"
+				},
+				"custom": {
+				  "axisLabel": "",
+				  "axisPlacement": "auto",
+				  "barAlignment": 0,
+				  "drawStyle": "line",
+				  "fillOpacity": 0,
+				  "gradientMode": "none",
+				  "hideFrom": {
+					"legend": false,
+					"tooltip": false,
+					"viz": false
+				  },
+				  "lineInterpolation": "linear",
+				  "lineWidth": 1,
+				  "pointSize": 5,
+				  "scaleDistribution": {
+					"type": "linear"
+				  },
+				  "showPoints": "auto",
+				  "spanNulls": false,
+				  "stacking": {
+					"group": "A",
+					"mode": "none"
+				  },
+				  "thresholdsStyle": {
+					"mode": "off"
+				  }
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 12,
+			  "x": 0,
+			  "y": 17
+			},
+			"id": 34,
+			"options": {
+			  "legend": {
+				"calcs": [
+				  "last"
+				],
+				"displayMode": "table",
+				"placement": "right",
+				"sortBy": "Last",
+				"sortDesc": true
+			  },
+			  "tooltip": {
+				"mode": "single",
+				"sort": "none"
+			  }
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "time_series",
+				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.donations)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand m.donations > 0\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name\norder by\n\tr.timestamp",
+				"refId": "A"
+			  }
+			],
+			"title": "Donations",
+			"type": "timeseries"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "palette-classic"
+				},
+				"custom": {
+				  "axisLabel": "",
+				  "axisPlacement": "auto",
+				  "barAlignment": 0,
+				  "drawStyle": "line",
+				  "fillOpacity": 0,
+				  "gradientMode": "none",
+				  "hideFrom": {
+					"legend": false,
+					"tooltip": false,
+					"viz": false
+				  },
+				  "lineInterpolation": "linear",
+				  "lineWidth": 1,
+				  "pointSize": 5,
+				  "scaleDistribution": {
+					"type": "linear"
+				  },
+				  "showPoints": "auto",
+				  "spanNulls": false,
+				  "stacking": {
+					"group": "A",
+					"mode": "none"
+				  },
+				  "thresholdsStyle": {
+					"mode": "off"
+				  }
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 12,
+			  "x": 12,
+			  "y": 17
+			},
+			"id": 35,
+			"options": {
+			  "legend": {
+				"calcs": [
+				  "last"
+				],
+				"displayMode": "table",
+				"placement": "right",
+				"sortBy": "Last",
+				"sortDesc": true
+			  },
+			  "tooltip": {
+				"mode": "single",
+				"sort": "none"
+			  }
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "time_series",
+				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.donations_received)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand m.donations > 0\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name\norder by\n\tr.timestamp",
+				"refId": "A"
+			  }
+			],
+			"title": "Donations Received",
+			"type": "timeseries"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "palette-classic"
+				},
+				"custom": {
+				  "axisLabel": "",
+				  "axisPlacement": "auto",
+				  "barAlignment": 0,
+				  "drawStyle": "line",
+				  "fillOpacity": 0,
+				  "gradientMode": "none",
+				  "hideFrom": {
+					"legend": false,
+					"tooltip": false,
+					"viz": false
+				  },
+				  "lineInterpolation": "linear",
+				  "lineWidth": 1,
+				  "pointSize": 5,
+				  "scaleDistribution": {
+					"type": "linear"
+				  },
+				  "showPoints": "auto",
+				  "spanNulls": false,
+				  "stacking": {
+					"group": "A",
+					"mode": "none"
+				  },
+				  "thresholdsStyle": {
+					"mode": "off"
+				  }
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 12,
+			  "x": 0,
+			  "y": 27
+			},
+			"id": 32,
+			"options": {
+			  "legend": {
+				"calcs": [
+				  "last"
+				],
+				"displayMode": "table",
+				"placement": "right",
+				"sortBy": "Last",
+				"sortDesc": true
+			  },
+			  "tooltip": {
+				"mode": "single",
+				"sort": "none"
+			  }
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "time_series",
+				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.trophies)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name\norder by\n\tr.timestamp",
+				"refId": "A"
+			  }
+			],
+			"title": "Trophies",
+			"transformations": [],
+			"type": "timeseries"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "palette-classic"
+				},
+				"custom": {
+				  "axisLabel": "",
+				  "axisPlacement": "auto",
+				  "barAlignment": 0,
+				  "drawStyle": "line",
+				  "fillOpacity": 0,
+				  "gradientMode": "none",
+				  "hideFrom": {
+					"legend": false,
+					"tooltip": false,
+					"viz": false
+				  },
+				  "lineInterpolation": "linear",
+				  "lineWidth": 1,
+				  "pointSize": 5,
+				  "scaleDistribution": {
+					"type": "linear"
+				  },
+				  "showPoints": "auto",
+				  "spanNulls": false,
+				  "stacking": {
+					"group": "A",
+					"mode": "none"
+				  },
+				  "thresholdsStyle": {
+					"mode": "off"
+				  }
+				},
+				"mappings": [],
+				"min": 0,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green",
+					  "value": null
+					}
+				  ]
+				},
+				"unit": "none"
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 10,
+			  "w": 12,
+			  "x": 12,
+			  "y": 27
+			},
+			"id": 33,
+			"options": {
+			  "legend": {
+				"calcs": [
+				  "last"
+				],
+				"displayMode": "table",
+				"placement": "right",
+				"sortBy": "Last",
+				"sortDesc": true
+			  },
+			  "tooltip": {
+				"mode": "single",
+				"sort": "none"
+			  }
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "time_series",
+				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.versus_trophies)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name\norder by\n\tr.timestamp",
+				"refId": "A"
+			  }
+			],
+			"title": "Versus Trophies",
+			"type": "timeseries"
+		  }
+		],
+		"title": "Clan Members",
+		"type": "row"
+	  },
+	  {
+		"collapsed": true,
+		"gridPos": {
+		  "h": 1,
+		  "w": 24,
+		  "x": 0,
+		  "y": 6
+		},
+		"id": 43,
+		"panels": [
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "continuous-BlYlRd"
+				},
+				"custom": {
+				  "align": "auto",
+				  "displayMode": "color-background-solid",
+				  "width": 50
+				},
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				}
+			  },
+			  "overrides": [
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Defender"
+				  },
+				  "properties": [
+					{
+					  "id": "color",
+					  "value": {
+						"fixedColor": "transparent",
+						"mode": "fixed"
+					  }
+					},
+					{
+					  "id": "custom.width",
+					  "value": 80
+					}
+				  ]
+				}
+			  ]
+			},
+			"gridPos": {
+			  "h": 15,
+			  "w": 12,
+			  "x": 0,
+			  "y": 7
+			},
+			"id": 45,
+			"options": {
+			  "footer": {
+				"fields": "",
+				"reducer": [
+				  "sum"
+				],
+				"show": false
+			  },
+			  "showHeader": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @ints table (ints int)\r\ninsert into @ints (ints) values (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14)\r\n\r\ndeclare @values table (\r\n\tints int,\r\n\tv1 int, v2 int, v3 int, v4 int, v5 int, v6 int, v7 int, v8 int, v9 int, v10 int, v11 int, v12 int, v13 int, v14 int,\r\n\tc1 int, c2 int, c3 int, c4 int, c5 int, c6 int, c7 int, c8 int, c9 int, c10 int, c11 int, c12 int, c13 int, c14 int\r\n)\r\n\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @values\r\n\tselect\r\n\t\tints as 'Defender',\r\n\t\tsum(case when lwcm.town_hall_level = 1 then  1 end) as 'v1',\r\n\t\tsum(case when lwcm.town_hall_level = 2 then  1 end) as 'v2',\r\n\t\tsum(case when lwcm.town_hall_level = 3 then  1 end) as 'v3',\r\n\t\tsum(case when lwcm.town_hall_level = 4 then  1 end) as 'v4',\r\n\t\tsum(case when lwcm.town_hall_level = 5 then  1 end) as 'v5',\r\n\t\tsum(case when lwcm.town_hall_level = 6 then  1 end) as 'v6',\r\n\t\tsum(case when lwcm.town_hall_level = 7 then  1 end) as 'v7',\r\n\t\tsum(case when lwcm.town_hall_level = 8 then  1 end) as 'v8',\r\n\t\tsum(case when lwcm.town_hall_level = 9 then  1 end) as 'v9',\r\n\t\tsum(case when lwcm.town_hall_level = 10 then 1 end) as 'v10',\r\n\t\tsum(case when lwcm.town_hall_level = 11 then 1 end) as 'v11',\r\n\t\tsum(case when lwcm.town_hall_level = 12 then 1 end) as 'v12',\r\n\t\tsum(case when lwcm.town_hall_level = 13 then 1 end) as 'v13',\r\n\t\tsum(case when lwcm.town_hall_level = 14 then 1 end) as 'v14',\r\n\t\tsum(case when lwcm.town_hall_level = 1 then  1 end) as 'c1',\r\n\t\tsum(case when lwcm.town_hall_level = 2 then  1 end) as 'c2',\r\n\t\tsum(case when lwcm.town_hall_level = 3 then  1 end) as 'c3',\r\n\t\tsum(case when lwcm.town_hall_level = 4 then  1 end) as 'c4',\r\n\t\tsum(case when lwcm.town_hall_level = 5 then  1 end) as 'c5',\r\n\t\tsum(case when lwcm.town_hall_level = 6 then  1 end) as 'c6',\r\n\t\tsum(case when lwcm.town_hall_level = 7 then  1 end) as 'c7',\r\n\t\tsum(case when lwcm.town_hall_level = 8 then  1 end) as 'c8',\r\n\t\tsum(case when lwcm.town_hall_level = 9 then  1 end) as 'c9',\r\n\t\tsum(case when lwcm.town_hall_level = 10 then 1 end) as 'c10',\r\n\t\tsum(case when lwcm.town_hall_level = 11 then 1 end) as 'c11',\r\n\t\tsum(case when lwcm.town_hall_level = 12 then 1 end) as 'c12',\r\n\t\tsum(case when lwcm.town_hall_level = 13 then 1 end) as 'c13',\r\n\t\tsum(case when lwcm.town_hall_level = 14 then 1 end) as 'c14'\r\n\tfrom\r\n\t\t@ints i\r\n\t\tleft join league_war_clan_members lwcm2 on lwcm2.town_hall_level = i.ints\r\n\t\tleft join league_war_clans lwc2 on lwc2.id = lwcm2.league_war_clan_id\r\n\t\tleft join league_wars lw on lw.id = lwc2.league_war_id\r\n\t\tleft join league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tleft join league_war_clans lwc on lwc.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tleft join league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\t\tand lwcm.attack_attacker_tag is not null\r\n\tgroup by\r\n\t\ti.ints\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @values\r\n\tselect\r\n\t\tints as 'Defender',\r\n\t\tsum(case when wcm.town_hall_level = 1 then  1 end) as 'v1',\r\n\t\tsum(case when wcm.town_hall_level = 2 then  1 end) as 'v2',\r\n\t\tsum(case when wcm.town_hall_level = 3 then  1 end) as 'v3',\r\n\t\tsum(case when wcm.town_hall_level = 4 then  1 end) as 'v4',\r\n\t\tsum(case when wcm.town_hall_level = 5 then  1 end) as 'v5',\r\n\t\tsum(case when wcm.town_hall_level = 6 then  1 end) as 'v6',\r\n\t\tsum(case when wcm.town_hall_level = 7 then  1 end) as 'v7',\r\n\t\tsum(case when wcm.town_hall_level = 8 then  1 end) as 'v8',\r\n\t\tsum(case when wcm.town_hall_level = 9 then  1 end) as 'v9',\r\n\t\tsum(case when wcm.town_hall_level = 10 then 1 end) as 'v10',\r\n\t\tsum(case when wcm.town_hall_level = 11 then 1 end) as 'v11',\r\n\t\tsum(case when wcm.town_hall_level = 12 then 1 end) as 'v12',\r\n\t\tsum(case when wcm.town_hall_level = 13 then 1 end) as 'v13',\r\n\t\tsum(case when wcm.town_hall_level = 14 then 1 end) as 'v14',\r\n\t\tsum(case when wcm.town_hall_level = 1 then  1 end) as 'c1',\r\n\t\tsum(case when wcm.town_hall_level = 2 then  1 end) as 'c2',\r\n\t\tsum(case when wcm.town_hall_level = 3 then  1 end) as 'c3',\r\n\t\tsum(case when wcm.town_hall_level = 4 then  1 end) as 'c4',\r\n\t\tsum(case when wcm.town_hall_level = 5 then  1 end) as 'c5',\r\n\t\tsum(case when wcm.town_hall_level = 6 then  1 end) as 'c6',\r\n\t\tsum(case when wcm.town_hall_level = 7 then  1 end) as 'c7',\r\n\t\tsum(case when wcm.town_hall_level = 8 then  1 end) as 'c8',\r\n\t\tsum(case when wcm.town_hall_level = 9 then  1 end) as 'c9',\r\n\t\tsum(case when wcm.town_hall_level = 10 then 1 end) as 'c10',\r\n\t\tsum(case when wcm.town_hall_level = 11 then 1 end) as 'c11',\r\n\t\tsum(case when wcm.town_hall_level = 12 then 1 end) as 'c12',\r\n\t\tsum(case when wcm.town_hall_level = 13 then 1 end) as 'c13',\r\n\t\tsum(case when wcm.town_hall_level = 14 then 1 end) as 'c14'\r\n\tfrom\r\n\t\t@ints i\r\n\t\tleft join war_clan_members wcm2 on wcm2.town_hall_level = i.ints\r\n\t\tleft join war_clans wc2 on wc2.id = wcm2.war_clan_id\r\n\t\tleft join wars w on w.id = wc2.war_id\r\n\t\tleft join war_clans wc on wc.war_id = w.id and wc2.id <> wc.id\r\n\t\tleft join war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tleft join war_attacks wa on wa.war_clan_member_id = wcm.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\t\tand wa.attacker_tag is not null\r\n\tgroup by\r\n\t\ti.ints\r\nend\r\n\r\nselect\r\n\ti.ints as 'Defender',\r\n\tsum(v.v1) as  '1',\r\n\tsum(v.v2) as  '2',\r\n\tsum(v.v3) as  '3',\r\n\tsum(v.v4) as  '4',\r\n\tsum(v.v5) as  '5',\r\n\tsum(v.v6) as  '6',\r\n\tsum(v.v7) as  '7',\r\n\tsum(v.v8) as  '8',\r\n\tsum(v.v9) as  '9',\r\n\tsum(v.v10) as '10',\r\n\tsum(v.v11) as '11',\r\n\tsum(v.v12) as '12',\r\n\tsum(v.v13) as '13',\r\n\tsum(v.v14) as '14'\r\nfrom\r\n\t@ints i\r\n\tleft join @values v on v.ints = i.ints\r\ngroup by\r\n\ti.ints",
+				"refId": "A"
+			  }
+			],
+			"title": "Count",
+			"type": "table"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "continuous-BlYlRd"
+				},
+				"custom": {
+				  "align": "auto",
+				  "displayMode": "color-background-solid",
+				  "width": 50
+				},
+				"mappings": [],
+				"max": 3,
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				}
+			  },
+			  "overrides": [
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Defender"
+				  },
+				  "properties": [
+					{
+					  "id": "color",
+					  "value": {
+						"fixedColor": "transparent",
+						"mode": "fixed"
+					  }
+					},
+					{
+					  "id": "custom.width",
+					  "value": 80
+					}
+				  ]
+				}
+			  ]
+			},
+			"gridPos": {
+			  "h": 15,
+			  "w": 12,
+			  "x": 12,
+			  "y": 7
+			},
+			"id": 49,
+			"options": {
+			  "footer": {
+				"fields": "",
+				"reducer": [
+				  "sum"
+				],
+				"show": false
+			  },
+			  "showHeader": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @ints table (ints int)\r\ninsert into @ints (ints) values (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14)\r\n\r\ndeclare @values table (\r\n\tints int,\r\n\tv1 int, v2 int, v3 int, v4 int, v5 int, v6 int, v7 int, v8 int, v9 int, v10 int, v11 int, v12 int, v13 int, v14 int,\r\n\tc1 int, c2 int, c3 int, c4 int, c5 int, c6 int, c7 int, c8 int, c9 int, c10 int, c11 int, c12 int, c13 int, c14 int\r\n)\r\n\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @values\r\n\tselect\r\n\t\tints as 'Defender',\r\n\t\tsum(case when lwcm.town_hall_level = 1 then  lwcm.attack_stars end) as 'v1',\r\n\t\tsum(case when lwcm.town_hall_level = 2 then  lwcm.attack_stars end) as 'v2',\r\n\t\tsum(case when lwcm.town_hall_level = 3 then  lwcm.attack_stars end) as 'v3',\r\n\t\tsum(case when lwcm.town_hall_level = 4 then  lwcm.attack_stars end) as 'v4',\r\n\t\tsum(case when lwcm.town_hall_level = 5 then  lwcm.attack_stars end) as 'v5',\r\n\t\tsum(case when lwcm.town_hall_level = 6 then  lwcm.attack_stars end) as 'v6',\r\n\t\tsum(case when lwcm.town_hall_level = 7 then  lwcm.attack_stars end) as 'v7',\r\n\t\tsum(case when lwcm.town_hall_level = 8 then  lwcm.attack_stars end) as 'v8',\r\n\t\tsum(case when lwcm.town_hall_level = 9 then  lwcm.attack_stars end) as 'v9',\r\n\t\tsum(case when lwcm.town_hall_level = 10 then lwcm.attack_stars end) as 'v10',\r\n\t\tsum(case when lwcm.town_hall_level = 11 then lwcm.attack_stars end) as 'v11',\r\n\t\tsum(case when lwcm.town_hall_level = 12 then lwcm.attack_stars end) as 'v12',\r\n\t\tsum(case when lwcm.town_hall_level = 13 then lwcm.attack_stars end) as 'v13',\r\n\t\tsum(case when lwcm.town_hall_level = 14 then lwcm.attack_stars end) as 'v14',\r\n\t\tsum(case when lwcm.town_hall_level = 1 then  1 end) as 'c1',\r\n\t\tsum(case when lwcm.town_hall_level = 2 then  1 end) as 'c2',\r\n\t\tsum(case when lwcm.town_hall_level = 3 then  1 end) as 'c3',\r\n\t\tsum(case when lwcm.town_hall_level = 4 then  1 end) as 'c4',\r\n\t\tsum(case when lwcm.town_hall_level = 5 then  1 end) as 'c5',\r\n\t\tsum(case when lwcm.town_hall_level = 6 then  1 end) as 'c6',\r\n\t\tsum(case when lwcm.town_hall_level = 7 then  1 end) as 'c7',\r\n\t\tsum(case when lwcm.town_hall_level = 8 then  1 end) as 'c8',\r\n\t\tsum(case when lwcm.town_hall_level = 9 then  1 end) as 'c9',\r\n\t\tsum(case when lwcm.town_hall_level = 10 then 1 end) as 'c10',\r\n\t\tsum(case when lwcm.town_hall_level = 11 then 1 end) as 'c11',\r\n\t\tsum(case when lwcm.town_hall_level = 12 then 1 end) as 'c12',\r\n\t\tsum(case when lwcm.town_hall_level = 13 then 1 end) as 'c13',\r\n\t\tsum(case when lwcm.town_hall_level = 14 then 1 end) as 'c14'\r\n\tfrom\r\n\t\t@ints i\r\n\t\tleft join league_war_clan_members lwcm2 on lwcm2.town_hall_level = i.ints\r\n\t\tleft join league_war_clans lwc2 on lwc2.id = lwcm2.league_war_clan_id\r\n\t\tleft join league_wars lw on lw.id = lwc2.league_war_id\r\n\t\tleft join league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tleft join league_war_clans lwc on lwc.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tleft join league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\t\tand lwcm.attack_attacker_tag is not null\r\n\tgroup by\r\n\t\ti.ints\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @values\r\n\tselect\r\n\t\tints as 'Defender',\r\n\t\tsum(case when wcm.town_hall_level = 1 then  wa.stars end) as 'v1',\r\n\t\tsum(case when wcm.town_hall_level = 2 then  wa.stars end) as 'v2',\r\n\t\tsum(case when wcm.town_hall_level = 3 then  wa.stars end) as 'v3',\r\n\t\tsum(case when wcm.town_hall_level = 4 then  wa.stars end) as 'v4',\r\n\t\tsum(case when wcm.town_hall_level = 5 then  wa.stars end) as 'v5',\r\n\t\tsum(case when wcm.town_hall_level = 6 then  wa.stars end) as 'v6',\r\n\t\tsum(case when wcm.town_hall_level = 7 then  wa.stars end) as 'v7',\r\n\t\tsum(case when wcm.town_hall_level = 8 then  wa.stars end) as 'v8',\r\n\t\tsum(case when wcm.town_hall_level = 9 then  wa.stars end) as 'v9',\r\n\t\tsum(case when wcm.town_hall_level = 10 then wa.stars end) as 'v10',\r\n\t\tsum(case when wcm.town_hall_level = 11 then wa.stars end) as 'v11',\r\n\t\tsum(case when wcm.town_hall_level = 12 then wa.stars end) as 'v12',\r\n\t\tsum(case when wcm.town_hall_level = 13 then wa.stars end) as 'v13',\r\n\t\tsum(case when wcm.town_hall_level = 14 then wa.stars end) as 'v14',\r\n\t\tsum(case when wcm.town_hall_level = 1 then  1 end) as 'c1',\r\n\t\tsum(case when wcm.town_hall_level = 2 then  1 end) as 'c2',\r\n\t\tsum(case when wcm.town_hall_level = 3 then  1 end) as 'c3',\r\n\t\tsum(case when wcm.town_hall_level = 4 then  1 end) as 'c4',\r\n\t\tsum(case when wcm.town_hall_level = 5 then  1 end) as 'c5',\r\n\t\tsum(case when wcm.town_hall_level = 6 then  1 end) as 'c6',\r\n\t\tsum(case when wcm.town_hall_level = 7 then  1 end) as 'c7',\r\n\t\tsum(case when wcm.town_hall_level = 8 then  1 end) as 'c8',\r\n\t\tsum(case when wcm.town_hall_level = 9 then  1 end) as 'c9',\r\n\t\tsum(case when wcm.town_hall_level = 10 then 1 end) as 'c10',\r\n\t\tsum(case when wcm.town_hall_level = 11 then 1 end) as 'c11',\r\n\t\tsum(case when wcm.town_hall_level = 12 then 1 end) as 'c12',\r\n\t\tsum(case when wcm.town_hall_level = 13 then 1 end) as 'c13',\r\n\t\tsum(case when wcm.town_hall_level = 14 then 1 end) as 'c14'\r\n\tfrom\r\n\t\t@ints i\r\n\t\tleft join war_clan_members wcm2 on wcm2.town_hall_level = i.ints\r\n\t\tleft join war_clans wc2 on wc2.id = wcm2.war_clan_id\r\n\t\tleft join wars w on w.id = wc2.war_id\r\n\t\tleft join war_clans wc on wc.war_id = w.id and wc2.id <> wc.id\r\n\t\tleft join war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tleft join war_attacks wa on wa.war_clan_member_id = wcm.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\t\tand wa.attacker_tag is not null\r\n\tgroup by\r\n\t\ti.ints\r\nend\r\n\r\nselect\r\n\ti.ints as 'Defender',\r\n\tsum(v.v1)  / cast(sum(v.c1)  as float) as  '1',\r\n\tsum(v.v2)  / cast(sum(v.c2)  as float) as  '2',\r\n\tsum(v.v3)  / cast(sum(v.c3)  as float) as  '3',\r\n\tsum(v.v4)  / cast(sum(v.c4)  as float) as  '4',\r\n\tsum(v.v5)  / cast(sum(v.c5)  as float) as  '5',\r\n\tsum(v.v6)  / cast(sum(v.c6)  as float) as  '6',\r\n\tsum(v.v7)  / cast(sum(v.c7)  as float) as  '7',\r\n\tsum(v.v8)  / cast(sum(v.c8)  as float) as  '8',\r\n\tsum(v.v9)  / cast(sum(v.c9)  as float) as  '9',\r\n\tsum(v.v10) / cast(sum(v.c10) as float) as '10',\r\n\tsum(v.v11) / cast(sum(v.c11) as float) as '11',\r\n\tsum(v.v12) / cast(sum(v.c12) as float) as '12',\r\n\tsum(v.v13) / cast(sum(v.c13) as float) as '13',\r\n\tsum(v.v14) / cast(sum(v.c14) as float) as '14'\r\nfrom\r\n\t@ints i\r\n\tleft join @values v on v.ints = i.ints\r\ngroup by\r\n\ti.ints",
+				"refId": "A"
+			  }
+			],
+			"title": "Stars",
+			"type": "table"
+		  },
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "continuous-BlYlRd"
+				},
+				"custom": {
+				  "align": "auto",
+				  "displayMode": "color-background-solid",
+				  "width": 50
+				},
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					}
+				  ]
+				}
+			  },
+			  "overrides": [
+				{
+				  "matcher": {
+					"id": "byName",
+					"options": "Defender"
+				  },
+				  "properties": [
+					{
+					  "id": "color",
+					  "value": {
+						"fixedColor": "transparent",
+						"mode": "fixed"
+					  }
+					},
+					{
+					  "id": "custom.width",
+					  "value": 80
+					}
+				  ]
+				}
+			  ]
+			},
+			"gridPos": {
+			  "h": 15,
+			  "w": 12,
+			  "x": 0,
+			  "y": 22
+			},
+			"id": 47,
+			"options": {
+			  "footer": {
+				"fields": "",
+				"reducer": [
+				  "sum"
+				],
+				"show": false
+			  },
+			  "showHeader": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @ints table (ints int)\r\ninsert into @ints (ints) values (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14)\r\n\r\ndeclare @values table (\r\n\tints int,\r\n\tv1 int, v2 int, v3 int, v4 int, v5 int, v6 int, v7 int, v8 int, v9 int, v10 int, v11 int, v12 int, v13 int, v14 int,\r\n\tc1 int, c2 int, c3 int, c4 int, c5 int, c6 int, c7 int, c8 int, c9 int, c10 int, c11 int, c12 int, c13 int, c14 int\r\n)\r\n\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @values\r\n\tselect\r\n\t\tints as 'Defender',\r\n\t\tsum(case when lwcm.town_hall_level = 1 then  lwcm.attack_destruction_percentage end) as 'v1',\r\n\t\tsum(case when lwcm.town_hall_level = 2 then  lwcm.attack_destruction_percentage end) as 'v2',\r\n\t\tsum(case when lwcm.town_hall_level = 3 then  lwcm.attack_destruction_percentage end) as 'v3',\r\n\t\tsum(case when lwcm.town_hall_level = 4 then  lwcm.attack_destruction_percentage end) as 'v4',\r\n\t\tsum(case when lwcm.town_hall_level = 5 then  lwcm.attack_destruction_percentage end) as 'v5',\r\n\t\tsum(case when lwcm.town_hall_level = 6 then  lwcm.attack_destruction_percentage end) as 'v6',\r\n\t\tsum(case when lwcm.town_hall_level = 7 then  lwcm.attack_destruction_percentage end) as 'v7',\r\n\t\tsum(case when lwcm.town_hall_level = 8 then  lwcm.attack_destruction_percentage end) as 'v8',\r\n\t\tsum(case when lwcm.town_hall_level = 9 then  lwcm.attack_destruction_percentage end) as 'v9',\r\n\t\tsum(case when lwcm.town_hall_level = 10 then lwcm.attack_destruction_percentage end) as 'v10',\r\n\t\tsum(case when lwcm.town_hall_level = 11 then lwcm.attack_destruction_percentage end) as 'v11',\r\n\t\tsum(case when lwcm.town_hall_level = 12 then lwcm.attack_destruction_percentage end) as 'v12',\r\n\t\tsum(case when lwcm.town_hall_level = 13 then lwcm.attack_destruction_percentage end) as 'v13',\r\n\t\tsum(case when lwcm.town_hall_level = 14 then lwcm.attack_destruction_percentage end) as 'v14',\r\n\t\tsum(case when lwcm.town_hall_level = 1 then  1 end) as 'c1',\r\n\t\tsum(case when lwcm.town_hall_level = 2 then  1 end) as 'c2',\r\n\t\tsum(case when lwcm.town_hall_level = 3 then  1 end) as 'c3',\r\n\t\tsum(case when lwcm.town_hall_level = 4 then  1 end) as 'c4',\r\n\t\tsum(case when lwcm.town_hall_level = 5 then  1 end) as 'c5',\r\n\t\tsum(case when lwcm.town_hall_level = 6 then  1 end) as 'c6',\r\n\t\tsum(case when lwcm.town_hall_level = 7 then  1 end) as 'c7',\r\n\t\tsum(case when lwcm.town_hall_level = 8 then  1 end) as 'c8',\r\n\t\tsum(case when lwcm.town_hall_level = 9 then  1 end) as 'c9',\r\n\t\tsum(case when lwcm.town_hall_level = 10 then 1 end) as 'c10',\r\n\t\tsum(case when lwcm.town_hall_level = 11 then 1 end) as 'c11',\r\n\t\tsum(case when lwcm.town_hall_level = 12 then 1 end) as 'c12',\r\n\t\tsum(case when lwcm.town_hall_level = 13 then 1 end) as 'c13',\r\n\t\tsum(case when lwcm.town_hall_level = 14 then 1 end) as 'c14'\r\n\tfrom\r\n\t\t@ints i\r\n\t\tleft join league_war_clan_members lwcm2 on lwcm2.town_hall_level = i.ints\r\n\t\tleft join league_war_clans lwc2 on lwc2.id = lwcm2.league_war_clan_id\r\n\t\tleft join league_wars lw on lw.id = lwc2.league_war_id\r\n\t\tleft join league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tleft join league_war_clans lwc on lwc.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tleft join league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\t\tand lwcm.attack_attacker_tag is not null\r\n\tgroup by\r\n\t\ti.ints\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @values\r\n\tselect\r\n\t\tints as 'Defender',\r\n\t\tsum(case when wcm.town_hall_level = 1 then  wa.destruction_percentage end) as 'v1',\r\n\t\tsum(case when wcm.town_hall_level = 2 then  wa.destruction_percentage end) as 'v2',\r\n\t\tsum(case when wcm.town_hall_level = 3 then  wa.destruction_percentage end) as 'v3',\r\n\t\tsum(case when wcm.town_hall_level = 4 then  wa.destruction_percentage end) as 'v4',\r\n\t\tsum(case when wcm.town_hall_level = 5 then  wa.destruction_percentage end) as 'v5',\r\n\t\tsum(case when wcm.town_hall_level = 6 then  wa.destruction_percentage end) as 'v6',\r\n\t\tsum(case when wcm.town_hall_level = 7 then  wa.destruction_percentage end) as 'v7',\r\n\t\tsum(case when wcm.town_hall_level = 8 then  wa.destruction_percentage end) as 'v8',\r\n\t\tsum(case when wcm.town_hall_level = 9 then  wa.destruction_percentage end) as 'v9',\r\n\t\tsum(case when wcm.town_hall_level = 10 then wa.destruction_percentage end) as 'v10',\r\n\t\tsum(case when wcm.town_hall_level = 11 then wa.destruction_percentage end) as 'v11',\r\n\t\tsum(case when wcm.town_hall_level = 12 then wa.destruction_percentage end) as 'v12',\r\n\t\tsum(case when wcm.town_hall_level = 13 then wa.destruction_percentage end) as 'v13',\r\n\t\tsum(case when wcm.town_hall_level = 14 then wa.destruction_percentage end) as 'v14',\r\n\t\tsum(case when wcm.town_hall_level = 1 then  1 end) as 'c1',\r\n\t\tsum(case when wcm.town_hall_level = 2 then  1 end) as 'c2',\r\n\t\tsum(case when wcm.town_hall_level = 3 then  1 end) as 'c3',\r\n\t\tsum(case when wcm.town_hall_level = 4 then  1 end) as 'c4',\r\n\t\tsum(case when wcm.town_hall_level = 5 then  1 end) as 'c5',\r\n\t\tsum(case when wcm.town_hall_level = 6 then  1 end) as 'c6',\r\n\t\tsum(case when wcm.town_hall_level = 7 then  1 end) as 'c7',\r\n\t\tsum(case when wcm.town_hall_level = 8 then  1 end) as 'c8',\r\n\t\tsum(case when wcm.town_hall_level = 9 then  1 end) as 'c9',\r\n\t\tsum(case when wcm.town_hall_level = 10 then 1 end) as 'c10',\r\n\t\tsum(case when wcm.town_hall_level = 11 then 1 end) as 'c11',\r\n\t\tsum(case when wcm.town_hall_level = 12 then 1 end) as 'c12',\r\n\t\tsum(case when wcm.town_hall_level = 13 then 1 end) as 'c13',\r\n\t\tsum(case when wcm.town_hall_level = 14 then 1 end) as 'c14'\r\n\tfrom\r\n\t\t@ints i\r\n\t\tleft join war_clan_members wcm2 on wcm2.town_hall_level = i.ints\r\n\t\tleft join war_clans wc2 on wc2.id = wcm2.war_clan_id\r\n\t\tleft join wars w on w.id = wc2.war_id\r\n\t\tleft join war_clans wc on wc.war_id = w.id and wc2.id <> wc.id\r\n\t\tleft join war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tleft join war_attacks wa on wa.war_clan_member_id = wcm.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\t\tand wa.attacker_tag is not null\r\n\tgroup by\r\n\t\ti.ints\r\nend\r\n\r\nselect\r\n\ti.ints as 'Defender',\r\n\tsum(v.v1)  / cast(sum(v.c1)  as float) as  '1',\r\n\tsum(v.v2)  / cast(sum(v.c2)  as float) as  '2',\r\n\tsum(v.v3)  / cast(sum(v.c3)  as float) as  '3',\r\n\tsum(v.v4)  / cast(sum(v.c4)  as float) as  '4',\r\n\tsum(v.v5)  / cast(sum(v.c5)  as float) as  '5',\r\n\tsum(v.v6)  / cast(sum(v.c6)  as float) as  '6',\r\n\tsum(v.v7)  / cast(sum(v.c7)  as float) as  '7',\r\n\tsum(v.v8)  / cast(sum(v.c8)  as float) as  '8',\r\n\tsum(v.v9)  / cast(sum(v.c9)  as float) as  '9',\r\n\tsum(v.v10) / cast(sum(v.c10) as float) as '10',\r\n\tsum(v.v11) / cast(sum(v.c11) as float) as '11',\r\n\tsum(v.v12) / cast(sum(v.c12) as float) as '12',\r\n\tsum(v.v13) / cast(sum(v.c13) as float) as '13',\r\n\tsum(v.v14) / cast(sum(v.c14) as float) as '14'\r\nfrom\r\n\t@ints i\r\n\tleft join @values v on v.ints = i.ints\r\ngroup by\r\n\ti.ints",
+				"refId": "A"
+			  }
+			],
+			"title": "Destruction",
+			"type": "table"
+		  }
+		],
+		"title": "Attacks by Townhall",
+		"type": "row"
+	  },
+	  {
+		"collapsed": true,
+		"gridPos": {
+		  "h": 1,
+		  "w": 24,
+		  "x": 0,
+		  "y": 7
+		},
+		"id": 51,
+		"panels": [
+		  {
+			"fieldConfig": {
+			  "defaults": {
+				"color": {
+				  "mode": "thresholds"
+				},
+				"custom": {
+				  "align": "auto",
+				  "displayMode": "auto"
+				},
+				"mappings": [],
+				"thresholds": {
+				  "mode": "absolute",
+				  "steps": [
+					{
+					  "color": "green"
+					},
+					{
+					  "color": "red",
+					  "value": 80
+					}
+				  ]
+				}
+			  },
+			  "overrides": []
+			},
+			"gridPos": {
+			  "h": 11,
+			  "w": 24,
+			  "x": 0,
+			  "y": 8
+			},
+			"id": 53,
+			"options": {
+			  "footer": {
+				"fields": "",
+				"reducer": [
+				  "sum"
+				],
+				"show": false
+			  },
+			  "showHeader": true
+			},
+			"pluginVersion": "8.4.2",
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_table table (townhall_diff int, [count] int, total_stars int, total_destruction int)\r\n\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_table\r\n\tselect\r\n\t\tlwcm2.town_hall_level - lwcm.town_hall_level as townhall_diff,\r\n\t\tcount(1) as [count],\r\n\t\tsum(lwcm.attack_stars) as total_stars,\r\n\t\tsum(lwcm.attack_destruction_percentage) as total_destruction\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm2.town_hall_level - lwcm.town_hall_level\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_table\r\n\tselect\r\n\t\twcm2.town_hall_level - wcm.town_hall_level as townhall_diff,\r\n\t\tcount(1) as [count],\r\n\t\tsum(wa.stars) as total_stars,\r\n\t\tsum(wa.destruction_percentage) as total_destruction\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm2.town_hall_level - wcm.town_hall_level\r\nend\r\n\r\nselect\r\n\ttownhall_diff as 'Townhall diff',\r\n\tsum([count]) as 'Count',\r\n\tsum(total_stars) / cast(sum([count]) as float) as 'Stars',\r\n\tsum(total_destruction) / cast(sum([count]) as float) as 'Destruction'\r\nfrom\r\n\t@attack_table\r\ngroup by\r\n\ttownhall_diff",
+				"refId": "A"
+			  }
+			],
+			"title": "Count",
+			"type": "table"
+		  },
+		  {
+			"gridPos": {
+			  "h": 10,
+			  "w": 8,
+			  "x": 0,
+			  "y": 19
+			},
+			"id": 55,
+			"options": {
+			  "border": {
+				"color": "yellow",
+				"size": 0
+			  },
+			  "fieldSets": [
+				{
+				  "col": 1,
+				  "color": "#8cf78e",
+				  "dotSize": 3,
+				  "hidden": false,
+				  "lineSize": 1,
+				  "lineType": "simple",
+				  "polynomialOrder": 3,
+				  "sizeCol": -3
+				},
+				{
+				  "col": 2,
+				  "color": "#ef5d4c",
+				  "dotSize": 3,
+				  "hidden": false,
+				  "lineSize": 1,
+				  "lineType": "simple",
+				  "polynomialOrder": 3,
+				  "sizeCol": -3
+				},
+				{
+				  "col": 3,
+				  "color": "#c927db",
+				  "dotSize": 3,
+				  "hidden": false,
+				  "lineSize": 1,
+				  "lineType": "simple",
+				  "polynomialOrder": 3,
+				  "sizeCol": -3
+				}
+			  ],
+			  "grid": {
+				"color": "#00000000"
+			  },
+			  "label": {
+				"col": -1,
+				"color": "#CCC",
+				"textSize": 2
+			  },
+			  "legend": {
+				"show": false,
+				"size": 0
+			  },
+			  "xAxis": {
+				"col": 0,
+				"inverted": false
+			  },
+			  "xAxisExtents": {},
+			  "xAxisTitle": {
+				"color": "white",
+				"logScale": false,
+				"rotated": false,
+				"text": "Townhall diff",
+				"textSize": 1
+			  },
+			  "xMargins": {
+				"lower": 30,
+				"upper": 10
+			  },
+			  "yAxisExtents": {
+				"min": 0
+			  },
+			  "yAxisTitle": {
+				"color": "#777",
+				"logScale": false,
+				"rotated": false,
+				"text": "",
+				"textSize": 1
+			  },
+			  "yMargins": {
+				"lower": 20,
+				"upper": 20
+			  }
+			},
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_table table (townhall_diff int, [count] int, total_stars int, total_destruction int)\r\n\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_table\r\n\tselect\r\n\t\tlwcm2.town_hall_level - lwcm.town_hall_level as townhall_diff,\r\n\t\tcount(1) as [count],\r\n\t\tsum(lwcm.attack_stars) as total_stars,\r\n\t\tsum(lwcm.attack_destruction_percentage) as total_destruction\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm2.town_hall_level - lwcm.town_hall_level\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_table\r\n\tselect\r\n\t\twcm2.town_hall_level - wcm.town_hall_level as townhall_diff,\r\n\t\tcount(1) as [count],\r\n\t\tsum(wa.stars) as total_stars,\r\n\t\tsum(wa.destruction_percentage) as total_destruction\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm2.town_hall_level - wcm.town_hall_level\r\nend\r\n\r\nselect\r\n\ttownhall_diff as 'Townhall diff',\r\n\tsum([count]) as 'Count'\r\nfrom\r\n\t@attack_table\r\ngroup by\r\n\ttownhall_diff\r\norder by\r\n\ttownhall_diff asc",
+				"refId": "A"
+			  }
+			],
+			"title": "Count",
+			"type": "michaeldmoore-scatter-panel"
+		  },
+		  {
+			"gridPos": {
+			  "h": 10,
+			  "w": 8,
+			  "x": 8,
+			  "y": 19
+			},
+			"id": 57,
+			"options": {
+			  "border": {
+				"color": "yellow",
+				"size": 0
+			  },
+			  "fieldSets": [
+				{
+				  "col": 1,
+				  "color": "#8cf78e",
+				  "dotSize": 3,
+				  "hidden": false,
+				  "lineSize": 1,
+				  "lineType": "simple",
+				  "polynomialOrder": 3,
+				  "sizeCol": -3
+				},
+				{
+				  "col": 2,
+				  "color": "#ef5d4c",
+				  "dotSize": 3,
+				  "hidden": false,
+				  "lineSize": 1,
+				  "lineType": "simple",
+				  "polynomialOrder": 3,
+				  "sizeCol": -3
+				},
+				{
+				  "col": 3,
+				  "color": "#c927db",
+				  "dotSize": 3,
+				  "hidden": false,
+				  "lineSize": 1,
+				  "lineType": "simple",
+				  "polynomialOrder": 3,
+				  "sizeCol": -3
+				}
+			  ],
+			  "grid": {
+				"color": "#00000000"
+			  },
+			  "label": {
+				"col": -1,
+				"color": "#CCC",
+				"textSize": 2
+			  },
+			  "legend": {
+				"show": false,
+				"size": 0
+			  },
+			  "xAxis": {
+				"col": 0,
+				"inverted": false
+			  },
+			  "xAxisExtents": {},
+			  "xAxisTitle": {
+				"color": "white",
+				"logScale": false,
+				"rotated": false,
+				"text": "Townhall diff",
+				"textSize": 1
+			  },
+			  "xMargins": {
+				"lower": 30,
+				"upper": 10
+			  },
+			  "yAxisExtents": {
+				"max": 3,
+				"min": 0
+			  },
+			  "yAxisTitle": {
+				"color": "#777",
+				"logScale": false,
+				"rotated": false,
+				"text": "",
+				"textSize": 1
+			  },
+			  "yMargins": {
+				"lower": 20,
+				"upper": 20
+			  }
+			},
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_table table (townhall_diff int, [count] int, total_stars int, total_destruction int)\r\n\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_table\r\n\tselect\r\n\t\tlwcm2.town_hall_level - lwcm.town_hall_level as townhall_diff,\r\n\t\tcount(1) as [count],\r\n\t\tsum(lwcm.attack_stars) as total_stars,\r\n\t\tsum(lwcm.attack_destruction_percentage) as total_destruction\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm2.town_hall_level - lwcm.town_hall_level\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_table\r\n\tselect\r\n\t\twcm2.town_hall_level - wcm.town_hall_level as townhall_diff,\r\n\t\tcount(1) as [count],\r\n\t\tsum(wa.stars) as total_stars,\r\n\t\tsum(wa.destruction_percentage) as total_destruction\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm2.town_hall_level - wcm.town_hall_level\r\nend\r\n\r\nselect\r\n\ttownhall_diff as 'Townhall diff',\r\n\tsum(total_stars) / cast(sum([count]) as float) as 'Stars'\r\nfrom\r\n\t@attack_table\r\ngroup by\r\n\ttownhall_diff\r\norder by\r\n\ttownhall_diff asc",
+				"refId": "A"
+			  }
+			],
+			"title": "Stars",
+			"type": "michaeldmoore-scatter-panel"
+		  },
+		  {
+			"gridPos": {
+			  "h": 10,
+			  "w": 8,
+			  "x": 16,
+			  "y": 19
+			},
+			"id": 59,
+			"options": {
+			  "border": {
+				"color": "yellow",
+				"size": 0
+			  },
+			  "fieldSets": [
+				{
+				  "col": 1,
+				  "color": "#8cf78e",
+				  "dotSize": 3,
+				  "hidden": false,
+				  "lineSize": 1,
+				  "lineType": "simple",
+				  "polynomialOrder": 3,
+				  "sizeCol": -3
+				},
+				{
+				  "col": 2,
+				  "color": "#ef5d4c",
+				  "dotSize": 3,
+				  "hidden": false,
+				  "lineSize": 1,
+				  "lineType": "simple",
+				  "polynomialOrder": 3,
+				  "sizeCol": -3
+				},
+				{
+				  "col": 3,
+				  "color": "#c927db",
+				  "dotSize": 3,
+				  "hidden": false,
+				  "lineSize": 1,
+				  "lineType": "simple",
+				  "polynomialOrder": 3,
+				  "sizeCol": -3
+				}
+			  ],
+			  "grid": {
+				"color": "#00000000"
+			  },
+			  "label": {
+				"col": -1,
+				"color": "#CCC",
+				"textSize": 2
+			  },
+			  "legend": {
+				"show": false,
+				"size": 0
+			  },
+			  "xAxis": {
+				"col": 0,
+				"inverted": false
+			  },
+			  "xAxisExtents": {},
+			  "xAxisTitle": {
+				"color": "white",
+				"logScale": false,
+				"rotated": false,
+				"text": "Townhall diff",
+				"textSize": 1
+			  },
+			  "xMargins": {
+				"lower": 30,
+				"upper": 10
+			  },
+			  "yAxisExtents": {
+				"max": 100,
+				"min": 0
+			  },
+			  "yAxisTitle": {
+				"color": "#777",
+				"logScale": false,
+				"rotated": false,
+				"text": "",
+				"textSize": 1
+			  },
+			  "yMargins": {
+				"lower": 20,
+				"upper": 20
+			  }
+			},
+			"targets": [
+			  {
+				"alias": "",
+				"datasource": {
+				  "type": "mssql",
+				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+				},
+				"format": "table",
+				"rawSql": "declare @attack_table table (townhall_diff int, [count] int, total_stars int, total_destruction int)\r\n\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_table\r\n\tselect\r\n\t\tlwcm2.town_hall_level - lwcm.town_hall_level as townhall_diff,\r\n\t\tcount(1) as [count],\r\n\t\tsum(lwcm.attack_stars) as total_stars,\r\n\t\tsum(lwcm.attack_destruction_percentage) as total_destruction\r\n\tfrom\r\n\t\tleague_wars lw\r\n\t\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\t\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\t\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\n\t\tjoin league_war_clans lwc2 on lwc2.league_war_id = lw.id and lwc2.id <> lwc.id\r\n\t\tjoin league_war_clan_members lwcm2 on lwcm2.league_war_clan_id = lwc2.id and lwcm.attack_defender_tag = lwcm2.tag\r\n\twhere\r\n\t\tlwc.tag in ($clans)\r\n\t\tand lwcm.tag in ($players)\r\n\t\tand $__timeFilter(lwd.end_time)\r\n\tgroup by\r\n\t\tlwcm2.town_hall_level - lwcm.town_hall_level\r\nend\r\nif '$normalwars' = 'Yes' begin\r\n\tinsert into @attack_table\r\n\tselect\r\n\t\twcm2.town_hall_level - wcm.town_hall_level as townhall_diff,\r\n\t\tcount(1) as [count],\r\n\t\tsum(wa.stars) as total_stars,\r\n\t\tsum(wa.destruction_percentage) as total_destruction\r\n\tfrom\r\n\t\twars w\r\n\t\tjoin war_clans wc on wc.war_id = w.id\r\n\t\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\n\t\tjoin war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tjoin war_clans wc2 on wc2.war_id = w.id and wc2.id <> wc.id\r\n\t\tjoin war_clan_members wcm2 on wcm2.war_clan_id = wc2.id and wa.defender_tag = wcm2.tag\r\n\twhere\r\n\t\twc.tag in ($clans)\r\n\t\tand wcm.tag in ($players)\r\n\t\tand $__timeFilter(w.end_time)\r\n\tgroup by\r\n\t\twcm2.town_hall_level - wcm.town_hall_level\r\nend\r\n\r\nselect\r\n\ttownhall_diff as 'Townhall diff',\r\n\tsum(total_destruction) / cast(sum([count]) as float) as 'Destruction'\r\nfrom\r\n\t@attack_table\r\ngroup by\r\n\ttownhall_diff\r\norder by\r\n\ttownhall_diff asc",
+				"refId": "A"
+			  }
+			],
+			"title": "Destruction",
+			"type": "michaeldmoore-scatter-panel"
+		  }
+		],
+		"title": "Attacks by Townhall diff",
+		"type": "row"
+	  }
+	],
+	"schemaVersion": 35,
+	"style": "dark",
+	"tags": [],
+	"templating": {
+	  "list": [
+		{
+		  "current": {},
+		  "definition": "select tag from league_war_clans\nunion select tag from war_clans\nunion select tag from clans\norder by tag",
+		  "hide": 0,
+		  "includeAll": true,
+		  "label": "Clans",
+		  "multi": true,
+		  "name": "clans",
+		  "options": [],
+		  "query": "select tag from league_war_clans\nunion select tag from war_clans\nunion select tag from clans\norder by tag",
+		  "refresh": 1,
+		  "regex": "",
+		  "skipUrlSync": false,
+		  "sort": 0,
+		  "type": "query",
+		  "datasource": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+		},
+		{
+		  "current": {},
+		  "definition": "select tag from league_war_clan_members\nunion select tag from war_clan_members\nunion select tag from members\norder by tag",
+		  "hide": 0,
+		  "includeAll": true,
+		  "label": "Players",
+		  "multi": true,
+		  "name": "players",
+		  "options": [],
+		  "query": "select tag from league_war_clan_members\nunion select tag from war_clan_members\nunion select tag from members\norder by tag",
+		  "refresh": 1,
+		  "regex": "",
+		  "skipUrlSync": false,
+		  "sort": 0,
+		  "type": "query",
+		  "datasource": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+		},
+		{
+		  "current": {
+			"selected": true,
+			"text": "Yes",
+			"value": "Yes"
+		  },
+		  "hide": 0,
+		  "includeAll": false,
+		  "label": "War Leagues",
+		  "multi": false,
+		  "name": "warleagues",
+		  "options": [
+			{
+			  "selected": true,
+			  "text": "Yes",
+			  "value": "Yes"
+			},
+			{
+			  "selected": false,
+			  "text": "No",
+			  "value": "No"
+			}
+		  ],
+		  "query": "Yes,No",
+		  "queryValue": "",
+		  "skipUrlSync": false,
+		  "type": "custom"
+		},
+		{
+		  "current": {
+			"selected": true,
+			"text": "Yes",
+			"value": "Yes"
+		  },
+		  "hide": 0,
+		  "includeAll": false,
+		  "label": "Normal Wars",
+		  "multi": false,
+		  "name": "normalwars",
+		  "options": [
+			{
+			  "selected": true,
+			  "text": "Yes",
+			  "value": "Yes"
+			},
+			{
+			  "selected": false,
+			  "text": "No",
+			  "value": "No"
+			}
+		  ],
+		  "query": "Yes,No",
+		  "queryValue": "",
+		  "skipUrlSync": false,
+		  "type": "custom"
+		}
+	  ]
+	},
+	"time": {
+	  "from": "now-30d",
+	  "to": "now"
+	},
+	"timepicker": {},
+	"timezone": "",
+	"title": "Clan Statistics",
+	"uid": "H00ZeJEnk",
+	"version": 13,
+	"weekStart": ""
+  }
