@@ -1,4 +1,6 @@
 
+
+
 require('dotenv').config();
 const sql = require('mssql');
 const clan_info_get = require('./js/clan_info_get');
