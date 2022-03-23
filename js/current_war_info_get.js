@@ -11,15 +11,13 @@ const utils = require('./utils');
  */
 async function execute (pool, headers, request_id, clan_tag) {
 	let current_war_response_data;
-	try {
-		const current_war_response = await axios({
-			url: 'https://api.clashofclans.com/v1/clans/%23' + clan_tag.substring(1) + '/currentwar',
-			headers: headers
-		});
-		current_war_response_data = current_war_response.data;
-	}
-	catch {
-		//404 when the clan is not currently in a war
+	const current_war_response = await axios({
+		url: 'https://api.clashofclans.com/v1/clans/%23' + clan_tag.substring(1) + '/currentwar',
+		headers: headers
+	});
+	current_war_response_data = current_war_response.data;
+
+	if (current_war_response_data.state === 'notInWar') {
 		return;
 	}
 
