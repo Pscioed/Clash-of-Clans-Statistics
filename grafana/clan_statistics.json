@@ -71,7 +71,7 @@
 	"fiscalYearStartMonth": 0,
 	"graphTooltip": 0,
 	"id": null,
-	"iteration": 1647733775076,
+	"iteration": 1648825856749,
 	"links": [],
 	"liveNow": false,
 	"panels": [
@@ -101,8 +101,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					},
 					{
 					  "color": "red",
@@ -180,8 +179,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					},
 					{
 					  "color": "red",
@@ -274,8 +272,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -359,8 +356,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -416,8 +412,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -473,8 +468,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -549,8 +543,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -634,8 +627,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -691,8 +683,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -748,8 +739,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -804,8 +794,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -861,8 +850,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -917,8 +905,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -993,8 +980,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -1078,8 +1064,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -1135,8 +1120,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -1192,8 +1176,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -1248,8 +1231,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -1305,8 +1287,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -1361,8 +1342,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -1897,7 +1877,7 @@
 				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
 				},
 				"format": "time_series",
-				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.donations)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand m.donations > 0\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name\norder by\n\tr.timestamp",
+				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.donations)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand m.donations > 0\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name,\n\tm.tag\norder by\n\tr.timestamp",
 				"refId": "A"
 			  }
 			],
@@ -1984,7 +1964,7 @@
 				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
 				},
 				"format": "time_series",
-				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.donations_received)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand m.donations > 0\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name\norder by\n\tr.timestamp",
+				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.donations_received)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand m.donations_received > 0\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name,\n\tm.tag\norder by\n\tr.timestamp",
 				"refId": "A"
 			  }
 			],
@@ -2071,7 +2051,7 @@
 				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
 				},
 				"format": "time_series",
-				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.trophies)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name\norder by\n\tr.timestamp",
+				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.trophies)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name,\n\tm.tag\norder by\n\tr.timestamp",
 				"refId": "A"
 			  }
 			],
@@ -2159,7 +2139,7 @@
 				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
 				},
 				"format": "time_series",
-				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.versus_trophies)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name\norder by\n\tr.timestamp",
+				"rawSql": "select\n\tr.timestamp as time,\n\tm.name as 'Name',\n\tmax(m.versus_trophies)\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tm.tag in ($players)\n\tand $__timeFilter(r.timestamp)\ngroup by\n\tr.timestamp,\n\tm.name,\n\tm.tag\norder by\n\tr.timestamp",
 				"refId": "A"
 			  }
 			],
@@ -2196,8 +2176,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				}
@@ -2274,8 +2253,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				}
@@ -2351,8 +2329,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				}
@@ -2441,8 +2418,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					},
 					{
 					  "color": "red",
@@ -2547,31 +2523,27 @@
 				"col": 0,
 				"inverted": false
 			  },
-			  "xAxisExtents": {
-				"min": null,
-				"max": null
-			  },
+			  "xAxisExtents": {},
 			  "xAxisTitle": {
-				"text": "Townhall diff",
 				"color": "white",
-				"textSize": 1,
+				"logScale": false,
 				"rotated": false,
-				"logScale": false
+				"text": "Townhall diff",
+				"textSize": 1
 			  },
 			  "xMargins": {
 				"lower": 30,
 				"upper": 10
 			  },
 			  "yAxisExtents": {
-				"min": 0,
-				"max": null
+				"min": 0
 			  },
 			  "yAxisTitle": {
-				"text": "",
 				"color": "#777",
-				"textSize": 1,
+				"logScale": false,
 				"rotated": false,
-				"logScale": false
+				"text": "",
+				"textSize": 1
 			  },
 			  "yMargins": {
 				"lower": 20,
@@ -2654,31 +2626,28 @@
 				"col": 0,
 				"inverted": false
 			  },
-			  "xAxisExtents": {
-				"min": null,
-				"max": null
-			  },
+			  "xAxisExtents": {},
 			  "xAxisTitle": {
-				"text": "Townhall diff",
 				"color": "white",
-				"textSize": 1,
+				"logScale": false,
 				"rotated": false,
-				"logScale": false
+				"text": "Townhall diff",
+				"textSize": 1
 			  },
 			  "xMargins": {
 				"lower": 30,
 				"upper": 10
 			  },
 			  "yAxisExtents": {
-				"min": 0,
-				"max": 3
+				"max": 3,
+				"min": 0
 			  },
 			  "yAxisTitle": {
-				"text": "",
 				"color": "#777",
-				"textSize": 1,
+				"logScale": false,
 				"rotated": false,
-				"logScale": false
+				"text": "",
+				"textSize": 1
 			  },
 			  "yMargins": {
 				"lower": 20,
@@ -2761,31 +2730,28 @@
 				"col": 0,
 				"inverted": false
 			  },
-			  "xAxisExtents": {
-				"min": null,
-				"max": null
-			  },
+			  "xAxisExtents": {},
 			  "xAxisTitle": {
-				"text": "Townhall diff",
 				"color": "white",
-				"textSize": 1,
+				"logScale": false,
 				"rotated": false,
-				"logScale": false
+				"text": "Townhall diff",
+				"textSize": 1
 			  },
 			  "xMargins": {
 				"lower": 30,
 				"upper": 10
 			  },
 			  "yAxisExtents": {
-				"min": 0,
-				"max": 100
+				"max": 100,
+				"min": 0
 			  },
 			  "yAxisTitle": {
-				"text": "",
 				"color": "#777",
-				"textSize": 1,
+				"logScale": false,
 				"rotated": false,
-				"logScale": false
+				"text": "",
+				"textSize": 1
 			  },
 			  "yMargins": {
 				"lower": 20,
@@ -2917,6 +2883,6 @@
 	"timezone": "",
 	"title": "Clan Statistics",
 	"uid": "H00ZeJEnk",
-	"version": 17,
+	"version": 19,
 	"weekStart": ""
   }
