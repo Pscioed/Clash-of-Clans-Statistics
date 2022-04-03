@@ -51,7 +51,7 @@ async function insert_league_group (pool, headers, league_group, request_id) {
 
 	const insert_league_group_clan_tasks = league_group.clans.map(async (clan) => await insert_league_group_clan(pool, clan, league_group_id))
 
-	const insert_league_group_round_tasks = league_group.rounds.map(async (round) => await insert_league_group_round(pool, headers, round, league_group_id));
+	const insert_league_group_round_tasks = league_group.rounds.map(async (round, index) => await insert_league_group_round(pool, headers, round, index, league_group_id));
 
 	await Promise.all(insert_league_group_clan_tasks.concat(insert_league_group_round_tasks));
 }
@@ -99,7 +99,7 @@ async function insert_league_group_clan_member (pool, member, league_group_clan_
  * @param {object} round The round to insert
  * @param {int} league_group_id The league group id
  */
-async function insert_league_group_round (pool, headers, round, league_group_id) {
+async function insert_league_group_round (pool, headers, round, index, league_group_id) {
 	const league_group_rounds_result = await pool.request()
 		.input('league_group_id', league_group_id)
 		.input('day_number', index)
@@ -117,6 +117,8 @@ async function insert_league_group_round (pool, headers, round, league_group_id)
  * @param {int} league_group_round_id The league group round id
  */
 async function insert_league_war (pool, headers, war_tag, league_group_round_id) {
+	if (war_tag === '#0') return;
+
 	const league_wars_result = await pool.request()
 		.input('league_group_round_id', league_group_round_id)
 		.input('war_tag', war_tag)
