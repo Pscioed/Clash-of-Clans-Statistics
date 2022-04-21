@@ -71,7 +71,7 @@
 	"fiscalYearStartMonth": 0,
 	"graphTooltip": 0,
 	"id": null,
-	"iteration": 1649187620878,
+	"iteration": 1650578175426,
 	"links": [],
 	"liveNow": false,
 	"panels": [
@@ -1479,7 +1479,7 @@
 				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
 				},
 				"format": "table",
-				"rawSql": "declare @latest_request_id int = (select top 1 id from requests order by timestamp desc)\r\ndeclare @latest_members table (tag nvarchar(16), name nvarchar(256))\r\ninsert into @latest_members\r\nselect\r\n\tm.tag,\r\n\tm.name\r\nfrom\r\n\trequests r\r\n\tjoin clans c on c.request_id = r.id\r\n\tjoin members m on m.clan_id = c.id\r\nwhere\r\n\tc.tag in ($clans)\r\n\tand m.tag in ($players)\r\n\tand r.id = @latest_request_id\r\n\r\ndeclare @join_date table (tag nvarchar(16), join_date datetime)\r\ninsert into @join_date\r\nselect\r\n\tlm.tag,\r\n\tmin(r.timestamp)\r\nfrom\r\n\t@latest_members lm\r\n\tjoin members m on m.tag = lm.tag\r\n\tjoin clans c on c.id = m.clan_id\r\n\tjoin requests r on r.id = c.request_id\r\ngroup by\r\n\tlm.tag\r\n\r\ndeclare @attack_stats table (tag nvarchar(16), attacks_made int, attacks_available int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlm.tag as tag,\r\n\t\tsum(case when $__timeFilter(lwd.end_time) and lwcm.attack_attacker_tag is not null then 1 else 0 end) as attacks_made,\r\n\t\tsum(case when $__timeFilter(lwd.end_time) then 1 else 0 end) as attacks_available\r\n\tfrom\r\n\t\t@latest_members lm\r\n\t\tleft join league_war_clan_members lwcm on lwcm.tag = lm.tag\r\n\t\tleft join league_war_clans lwc on lwc.id = lwcm.league_war_clan_id\r\n\t\tleft join league_wars lw on lw.id = lwc.league_war_id\r\n\t\tleft join league_war_details lwd on lwd.league_war_id = lw.id\r\n\tgroup by\r\n\t\tlm.tag\r\nend\r\n\r\nif '$normalwars' = 'Yes' begin\r\n\tdeclare @attacks_available table (tag nvarchar(16), attacks_available int)\r\n\tinsert into @attacks_available\r\n\tselect\r\n\t\tlm.tag,\r\n\t\tsum(case when $__timeFilter(w.end_time) then w.attacks_per_member else 0 end) attacks_available\r\n\tfrom\r\n\t\t@latest_members lm\r\n\t\tleft join war_clan_members wcm on wcm.tag = lm.tag\r\n\t\tleft join war_clans wc on wc.id = wcm.war_clan_id\r\n\t\tleft join wars w on w.id = wc.war_id\r\n\tgroup by\r\n\t\tlm.tag\r\n\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlm.tag as tag,\r\n\t\tsum(case when w.end_time BETWEEN '2022-02-14T20:22:30Z' AND '2022-04-12T19:22:30Z' and wa.id is not null then 1 else 0 end) as attacks_made,\r\n\t\taa.attacks_available as attacks_available\r\n\tfrom\r\n\t\t@latest_members lm\r\n\t\tjoin @attacks_available aa on aa.tag = lm.tag\r\n\t\tleft join war_clan_members wcm on wcm.tag = lm.tag\r\n\t\tleft join war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tleft join war_clans wc on wc.id = wcm.war_clan_id\r\n\t\tleft join wars w on w.id = wc.war_id\r\n\tgroup by\r\n\t\tlm.tag,\r\n\t\taa.attacks_available\r\nend\r\n\r\ndeclare @attack_stats_grouped table (tag nvarchar(16), attacks_made int, attacks_available int)\r\ninsert into @attack_stats_grouped\r\nselect\r\n\ttag,\r\n\tsum(attacks_made),\r\n\tsum(attacks_available)\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\ttag\r\n\r\nselect\r\n\trow_number() over(\r\n\t\torder by case when asg.attacks_available > 0 then asg.attacks_made / cast(asg.attacks_available as float) else 0 end desc,\r\n\t\tasg.attacks_available asc,\r\n\t\tjd.join_date desc\r\n\t) as 'Number',\r\n\tlm.name as 'Name',\r\n\tjd.join_date as 'Joined',\r\n\tcase when asg.attacks_available > 0 then asg.attacks_made / cast(asg.attacks_available as float) else null end as 'Attack Utilization',\r\n\tasg.attacks_made as 'Attacks Made',\r\n\tasg.attacks_available as 'Attacks Available'\r\nfrom\r\n\t@latest_members lm\r\n\tjoin @join_date jd on jd.tag = lm.tag\r\n\tjoin @attack_stats_grouped asg on asg.tag = lm.tag\r\norder by\r\n\tcase when asg.attacks_available > 0 then asg.attacks_made / cast(asg.attacks_available as float) else 0 end desc,\r\n\tasg.attacks_available asc,\r\n\tjd.join_date desc",
+				"rawSql": "declare @latest_request_id int = (select top 1 id from requests order by timestamp desc)\r\ndeclare @latest_members table (tag nvarchar(16), name nvarchar(256))\r\ninsert into @latest_members\r\nselect\r\n\tm.tag,\r\n\tm.name\r\nfrom\r\n\trequests r\r\n\tjoin clans c on c.request_id = r.id\r\n\tjoin members m on m.clan_id = c.id\r\nwhere\r\n\tc.tag in ($clans)\r\n\tand m.tag in ($players)\r\n\tand r.id = @latest_request_id\r\n\r\ndeclare @join_date table (tag nvarchar(16), join_date datetime)\r\ninsert into @join_date\r\nselect\r\n\tlm.tag,\r\n\tmin(r.timestamp)\r\nfrom\r\n\t@latest_members lm\r\n\tjoin members m on m.tag = lm.tag\r\n\tjoin clans c on c.id = m.clan_id\r\n\tjoin requests r on r.id = c.request_id\r\ngroup by\r\n\tlm.tag\r\n\r\ndeclare @attack_stats table (tag nvarchar(16), attacks_made int, attacks_available int)\r\nif '$warleagues' = 'Yes' begin\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlm.tag as tag,\r\n\t\tsum(case when $__timeFilter(lwd.end_time) and lwcm.attack_attacker_tag is not null then 1 else 0 end) as attacks_made,\r\n\t\tsum(case when $__timeFilter(lwd.end_time) then 1 else 0 end) as attacks_available\r\n\tfrom\r\n\t\t@latest_members lm\r\n\t\tleft join league_war_clan_members lwcm on lwcm.tag = lm.tag\r\n\t\tleft join league_war_clans lwc on lwc.id = lwcm.league_war_clan_id\r\n\t\tleft join league_wars lw on lw.id = lwc.league_war_id\r\n\t\tleft join league_war_details lwd on lwd.league_war_id = lw.id\r\n\tgroup by\r\n\t\tlm.tag\r\nend\r\n\r\nif '$normalwars' = 'Yes' begin\r\n\tdeclare @attacks_available table (tag nvarchar(16), attacks_available int)\r\n\tinsert into @attacks_available\r\n\tselect\r\n\t\tlm.tag,\r\n\t\tsum(case when $__timeFilter(w.end_time) then w.attacks_per_member else 0 end) attacks_available\r\n\tfrom\r\n\t\t@latest_members lm\r\n\t\tleft join war_clan_members wcm on wcm.tag = lm.tag\r\n\t\tleft join war_clans wc on wc.id = wcm.war_clan_id\r\n\t\tleft join wars w on w.id = wc.war_id\r\n\tgroup by\r\n\t\tlm.tag\r\n\r\n\tinsert into @attack_stats\r\n\tselect\r\n\t\tlm.tag as tag,\r\n\t\tsum(case when $__timeFilter(w.end_time) and wa.id is not null then 1 else 0 end) as attacks_made,\r\n\t\taa.attacks_available as attacks_available\r\n\tfrom\r\n\t\t@latest_members lm\r\n\t\tjoin @attacks_available aa on aa.tag = lm.tag\r\n\t\tleft join war_clan_members wcm on wcm.tag = lm.tag\r\n\t\tleft join war_attacks wa on wa.war_clan_member_id = wcm.id\r\n\t\tleft join war_clans wc on wc.id = wcm.war_clan_id\r\n\t\tleft join wars w on w.id = wc.war_id\r\n\tgroup by\r\n\t\tlm.tag,\r\n\t\taa.attacks_available\r\nend\r\n\r\ndeclare @attack_stats_grouped table (tag nvarchar(16), attacks_made int, attacks_available int)\r\ninsert into @attack_stats_grouped\r\nselect\r\n\ttag,\r\n\tsum(attacks_made),\r\n\tsum(attacks_available)\r\nfrom\r\n\t@attack_stats\r\ngroup by\r\n\ttag\r\n\r\nselect\r\n\trow_number() over(\r\n\t\torder by case when asg.attacks_available > 0 then asg.attacks_made / cast(asg.attacks_available as float) else 0 end desc,\r\n\t\tasg.attacks_available asc,\r\n\t\tjd.join_date desc\r\n\t) as 'Number',\r\n\tlm.name as 'Name',\r\n\tjd.join_date as 'Joined',\r\n\tcase when asg.attacks_available > 0 then asg.attacks_made / cast(asg.attacks_available as float) else null end as 'Attack Utilization',\r\n\tasg.attacks_made as 'Attacks Made',\r\n\tasg.attacks_available as 'Attacks Available'\r\nfrom\r\n\t@latest_members lm\r\n\tjoin @join_date jd on jd.tag = lm.tag\r\n\tjoin @attack_stats_grouped asg on asg.tag = lm.tag\r\norder by\r\n\tcase when asg.attacks_available > 0 then asg.attacks_made / cast(asg.attacks_available as float) else 0 end desc,\r\n\tasg.attacks_available asc,\r\n\tjd.join_date desc",
 				"refId": "A"
 			  }
 			],
@@ -1767,7 +1767,8 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green"
+					  "color": "green",
+					  "value": null
 					}
 				  ]
 				},
@@ -1848,7 +1849,8 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green"
+					  "color": "green",
+					  "value": null
 					}
 				  ]
 				},
@@ -1934,7 +1936,8 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green"
+					  "color": "green",
+					  "value": null
 					}
 				  ]
 				},
@@ -2020,7 +2023,8 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green"
+					  "color": "green",
+					  "value": null
 					}
 				  ]
 				},
@@ -2107,7 +2111,8 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green"
+					  "color": "green",
+					  "value": null
 					}
 				  ]
 				},
@@ -2890,6 +2895,6 @@
 	"timezone": "",
 	"title": "Clan Statistics",
 	"uid": "H00ZeJEnk",
-	"version": 21,
+	"version": 22,
 	"weekStart": ""
   }
