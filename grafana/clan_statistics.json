@@ -71,7 +71,7 @@
 	"fiscalYearStartMonth": 0,
 	"graphTooltip": 0,
 	"id": null,
-	"iteration": 1650578175426,
+	"iteration": 1652223517319,
 	"links": [],
 	"liveNow": false,
 	"panels": [
@@ -595,7 +595,7 @@
 			  "sortBy": [
 				{
 				  "desc": true,
-				  "displayName": "Count"
+				  "displayName": "Stars"
 				}
 			  ]
 			},
@@ -1031,8 +1031,8 @@
 			  "showHeader": true,
 			  "sortBy": [
 				{
-				  "desc": true,
-				  "displayName": "Count"
+				  "desc": false,
+				  "displayName": "Stars"
 				}
 			  ]
 			},
@@ -1418,8 +1418,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -1526,8 +1525,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					},
 					{
 					  "color": "red",
@@ -1611,8 +1609,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					},
 					{
 					  "color": "red",
@@ -1696,8 +1693,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				}
@@ -1767,8 +1763,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -1849,8 +1844,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -1936,8 +1930,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -2023,8 +2016,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -2111,8 +2103,7 @@
 				  "mode": "absolute",
 				  "steps": [
 					{
-					  "color": "green",
-					  "value": null
+					  "color": "green"
 					}
 				  ]
 				},
@@ -2831,7 +2822,7 @@
 		},
 		{
 		  "current": {
-			"selected": true,
+			"selected": false,
 			"text": "Yes",
 			"value": "Yes"
 		  },
@@ -2859,7 +2850,7 @@
 		},
 		{
 		  "current": {
-			"selected": true,
+			"selected": false,
 			"text": "Yes",
 			"value": "Yes"
 		  },
@@ -2888,13 +2879,13 @@
 	  ]
 	},
 	"time": {
-	  "from": "now-60d",
+	  "from": "now-90d",
 	  "to": "now"
 	},
 	"timepicker": {},
 	"timezone": "",
 	"title": "Clan Statistics",
 	"uid": "H00ZeJEnk",
-	"version": 22,
+	"version": 24,
 	"weekStart": ""
   }
