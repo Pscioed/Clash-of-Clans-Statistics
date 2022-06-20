@@ -71,7 +71,7 @@
 	"fiscalYearStartMonth": 0,
 	"graphTooltip": 0,
 	"id": null,
-	"iteration": 1652397893100,
+	"iteration": 1655743880026,
 	"links": [],
 	"liveNow": false,
 	"panels": [
@@ -2878,7 +2878,7 @@
 		},
 		{
 		  "current": {
-			"selected": false,
+			"selected": true,
 			"text": "Yes",
 			"value": "Yes"
 		  },
@@ -2907,13 +2907,13 @@
 	  ]
 	},
 	"time": {
-	  "from": "now-90d",
+	  "from": "now-120d",
 	  "to": "now"
 	},
 	"timepicker": {},
 	"timezone": "",
 	"title": "Clan Statistics",
 	"uid": "H00ZeJEnk",
-	"version": 26,
+	"version": 27,
 	"weekStart": ""
   }
