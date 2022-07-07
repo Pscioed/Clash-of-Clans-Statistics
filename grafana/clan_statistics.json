@@ -21,7 +21,7 @@
 		"type": "grafana",
 		"id": "grafana",
 		"name": "Grafana",
-		"version": "8.4.2"
+		"version": "9.0.2"
 	  },
 	  {
 		"type": "panel",
@@ -52,7 +52,10 @@
 	  "list": [
 		{
 		  "builtIn": 1,
-		  "datasource": "-- Grafana --",
+		  "datasource": {
+			"type": "datasource",
+			"uid": "grafana"
+		  },
 		  "enable": true,
 		  "hide": true,
 		  "iconColor": "rgba(0, 211, 255, 1)",
@@ -71,191 +74,29 @@
 	"fiscalYearStartMonth": 0,
 	"graphTooltip": 0,
 	"id": null,
-	"iteration": 1655743880026,
+	"iteration": 1657235848866,
 	"links": [],
 	"liveNow": false,
 	"panels": [
 	  {
 		"collapsed": true,
+		"datasource": {
+		  "type": "mssql",
+		  "uid": "TCQR7qYnz"
+		},
 		"gridPos": {
 		  "h": 1,
 		  "w": 24,
 		  "x": 0,
 		  "y": 0
 		},
-		"id": 37,
-		"panels": [
-		  {
-			"fieldConfig": {
-			  "defaults": {
-				"color": {
-				  "mode": "thresholds"
-				},
-				"custom": {
-				  "align": "auto",
-				  "displayMode": "auto"
-				},
-				"links": [],
-				"mappings": [],
-				"thresholds": {
-				  "mode": "absolute",
-				  "steps": [
-					{
-					  "color": "green"
-					},
-					{
-					  "color": "red",
-					  "value": 80
-					}
-				  ]
-				}
-			  },
-			  "overrides": [
-				{
-				  "matcher": {
-					"id": "byName",
-					"options": "Name"
-				  },
-				  "properties": [
-					{
-					  "id": "links",
-					  "value": [
-						{
-						  "title": "",
-						  "url": "d/H00ZeJEnk/clan-statistics?${__all_variables}&${__url_time_range}&var-clans=${__data.fields.Tag:percentencode}"
-						}
-					  ]
-					}
-				  ]
-				}
-			  ]
-			},
-			"gridPos": {
-			  "h": 16,
-			  "w": 12,
-			  "x": 0,
-			  "y": 1
-			},
-			"id": 39,
-			"options": {
-			  "footer": {
-				"fields": "",
-				"reducer": [
-				  "sum"
-				],
-				"show": false
-			  },
-			  "showHeader": true
-			},
-			"pluginVersion": "8.4.2",
-			"targets": [
-			  {
-				"alias": "",
-				"datasource": {
-				  "type": "mssql",
-				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
-				},
-				"format": "table",
-				"rawSql": "select\n\tlwc.name as 'Name',\n\tlwc.tag as 'Tag'\nfrom\n\tleague_wars lw\n\tjoin league_war_details lwd on lwd.league_war_id = lw.id\n\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\nwhere\n\t$__timeFilter(lwd.end_time)\nunion\nselect\n\twc.name as 'Name',\n\twc.tag as 'Tag'\nfrom\n\twars w\n\tjoin war_clans wc on wc.war_id = w.id\nwhere\n\t$__timeFilter(w.end_time)\nunion\nselect\n\tc.name as 'Name',\n\tc.tag as 'Tag'\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\nwhere\n\t$__timeFilter(r.timestamp)\norder by\n\tName",
-				"refId": "A"
-			  }
-			],
-			"title": "Clans",
-			"type": "table"
-		  },
-		  {
-			"fieldConfig": {
-			  "defaults": {
-				"color": {
-				  "mode": "thresholds"
-				},
-				"custom": {
-				  "align": "auto",
-				  "displayMode": "auto"
-				},
-				"links": [],
-				"mappings": [],
-				"thresholds": {
-				  "mode": "absolute",
-				  "steps": [
-					{
-					  "color": "green"
-					},
-					{
-					  "color": "red",
-					  "value": 80
-					}
-				  ]
-				}
-			  },
-			  "overrides": [
-				{
-				  "matcher": {
-					"id": "byName",
-					"options": "Name"
-				  },
-				  "properties": [
-					{
-					  "id": "links",
-					  "value": [
-						{
-						  "title": "",
-						  "url": "d/H00ZeJEnk/clan-statistics?${__all_variables}&${__url_time_range}&var-players=${__data.fields.Tag:percentencode}"
-						}
-					  ]
-					}
-				  ]
-				}
-			  ]
-			},
-			"gridPos": {
-			  "h": 16,
-			  "w": 12,
-			  "x": 12,
-			  "y": 1
-			},
-			"id": 40,
-			"options": {
-			  "footer": {
-				"fields": "",
-				"reducer": [
-				  "sum"
-				],
-				"show": false
-			  },
-			  "showHeader": true
-			},
-			"pluginVersion": "8.4.2",
-			"targets": [
-			  {
-				"alias": "",
-				"datasource": {
-				  "type": "mssql",
-				  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
-				},
-				"format": "table",
-				"rawSql": "declare @latest_request_id int = (select top 1 id from requests order by timestamp desc)\r\ndeclare @latest_members table (tag nvarchar(16), name nvarchar(256))\r\ninsert into @latest_members\r\nselect\r\n\tm.tag,\r\n\tm.name\r\nfrom\r\n\trequests r\r\n\tjoin clans c on c.request_id = r.id\r\n\tjoin members m on m.clan_id = c.id\r\nwhere\r\n\tc.tag in ($clans)\r\n\tand r.id = @latest_request_id\r\n\r\nselect\r\n\tlwcm.name as 'Name',\r\n\tlwc.name as 'Clan',\r\n\tlwcm.tag as 'Tag'\r\nfrom\r\n\tleague_wars lw\r\n\tjoin league_war_details lwd on lwd.league_war_id = lw.id\r\n\tjoin league_war_clans lwc on lwc.league_war_id = lw.id\r\n\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\r\nwhere\r\n\tlwc.tag in ($clans)\r\n\tand ('$onlycurrentmembers' = 'No' or lwcm.tag in (select tag from @latest_members))\r\n\tand $__timeFilter(lwd.end_time)\r\nunion\r\nselect\r\n\twcm.name as 'Name',\r\n\twc.name as 'Clan',\r\n\twcm.tag as 'Tag'\r\nfrom\r\n\twars w\r\n\tjoin war_clans wc on wc.war_id = w.id\r\n\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\r\nwhere\r\n\twc.tag in ($clans)\r\n\tand ('$onlycurrentmembers' = 'No' or wcm.tag in (select tag from @latest_members))\r\n\tand $__timeFilter(w.end_time)\r\nunion\r\nselect\r\n\tm.name as 'Name',\r\n\tc.name as 'Clan',\r\n\tm.tag as 'Tag'\r\nfrom\r\n\trequests r\r\n\tjoin clans c on c.request_id = r.id\r\n\tjoin members m on m.clan_id = c.id\r\nwhere\r\n\tc.tag in ($clans)\r\n\tand ('$onlycurrentmembers' = 'No' or m.tag in (select tag from @latest_members))\r\n\tand $__timeFilter(r.timestamp)\r\norder by\r\n\tName",
-				"refId": "A"
-			  }
-			],
-			"title": "Players",
-			"type": "table"
-		  }
-		],
-		"title": "Filters",
-		"type": "row"
-	  },
-	  {
-		"collapsed": true,
-		"gridPos": {
-		  "h": 1,
-		  "w": 24,
-		  "x": 0,
-		  "y": 1
-		},
 		"id": 2,
 		"panels": [
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -263,7 +104,8 @@
 				},
 				"custom": {
 				  "align": "auto",
-				  "displayMode": "auto"
+				  "displayMode": "auto",
+				  "inspect": false
 				},
 				"links": [],
 				"mappings": [],
@@ -309,7 +151,7 @@
 			  "h": 11,
 			  "w": 24,
 			  "x": 0,
-			  "y": 2
+			  "y": 1
 			},
 			"id": 31,
 			"options": {
@@ -328,7 +170,7 @@
 				}
 			  ]
 			},
-			"pluginVersion": "8.4.2",
+			"pluginVersion": "9.0.2",
 			"targets": [
 			  {
 				"alias": "",
@@ -345,6 +187,10 @@
 			"type": "table"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -368,11 +214,13 @@
 			  "h": 10,
 			  "w": 8,
 			  "x": 0,
-			  "y": 13
+			  "y": 12
 			},
 			"id": 5,
 			"options": {
 			  "displayMode": "basic",
+			  "minVizHeight": 10,
+			  "minVizWidth": 0,
 			  "orientation": "horizontal",
 			  "reduceOptions": {
 				"calcs": [
@@ -384,7 +232,7 @@
 			  },
 			  "showUnfilled": true
 			},
-			"pluginVersion": "8.4.2",
+			"pluginVersion": "9.0.2",
 			"targets": [
 			  {
 				"alias": "",
@@ -401,6 +249,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -424,11 +276,13 @@
 			  "h": 10,
 			  "w": 8,
 			  "x": 8,
-			  "y": 13
+			  "y": 12
 			},
 			"id": 9,
 			"options": {
 			  "displayMode": "basic",
+			  "minVizHeight": 10,
+			  "minVizWidth": 0,
 			  "orientation": "horizontal",
 			  "reduceOptions": {
 				"calcs": [
@@ -440,7 +294,7 @@
 			  },
 			  "showUnfilled": true
 			},
-			"pluginVersion": "8.4.2",
+			"pluginVersion": "9.0.2",
 			"targets": [
 			  {
 				"alias": "",
@@ -457,6 +311,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -480,11 +338,13 @@
 			  "h": 10,
 			  "w": 8,
 			  "x": 16,
-			  "y": 13
+			  "y": 12
 			},
 			"id": 16,
 			"options": {
 			  "displayMode": "basic",
+			  "minVizHeight": 10,
+			  "minVizWidth": 0,
 			  "orientation": "horizontal",
 			  "reduceOptions": {
 				"calcs": [
@@ -496,7 +356,7 @@
 			  },
 			  "showUnfilled": true
 			},
-			"pluginVersion": "8.4.2",
+			"pluginVersion": "9.0.2",
 			"targets": [
 			  {
 				"alias": "",
@@ -513,20 +373,37 @@
 			"type": "bargauge"
 		  }
 		],
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "TCQR7qYnz"
+			},
+			"refId": "A"
+		  }
+		],
 		"title": "War Participation",
 		"type": "row"
 	  },
 	  {
 		"collapsed": true,
+		"datasource": {
+		  "type": "mssql",
+		  "uid": "TCQR7qYnz"
+		},
 		"gridPos": {
 		  "h": 1,
 		  "w": 24,
 		  "x": 0,
-		  "y": 2
+		  "y": 1
 		},
 		"id": 8,
 		"panels": [
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -535,6 +412,7 @@
 				"custom": {
 				  "align": "auto",
 				  "displayMode": "auto",
+				  "inspect": false,
 				  "minWidth": 50
 				},
 				"mappings": [],
@@ -580,7 +458,7 @@
 			  "h": 11,
 			  "w": 24,
 			  "x": 0,
-			  "y": 3
+			  "y": 2
 			},
 			"id": 11,
 			"options": {
@@ -599,7 +477,7 @@
 				}
 			  ]
 			},
-			"pluginVersion": "8.4.2",
+			"pluginVersion": "9.0.2",
 			"targets": [
 			  {
 				"alias": "",
@@ -616,6 +494,10 @@
 			"type": "table"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -639,11 +521,13 @@
 			  "h": 10,
 			  "w": 4,
 			  "x": 0,
-			  "y": 14
+			  "y": 13
 			},
 			"id": 6,
 			"options": {
 			  "displayMode": "basic",
+			  "minVizHeight": 10,
+			  "minVizWidth": 0,
 			  "orientation": "horizontal",
 			  "reduceOptions": {
 				"calcs": [
@@ -655,7 +539,7 @@
 			  },
 			  "showUnfilled": true
 			},
-			"pluginVersion": "8.4.2",
+			"pluginVersion": "9.0.2",
 			"targets": [
 			  {
 				"alias": "",
@@ -672,6 +556,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -695,11 +583,13 @@
 			  "h": 10,
 			  "w": 4,
 			  "x": 4,
-			  "y": 14
+			  "y": 13
 			},
 			"id": 10,
 			"options": {
 			  "displayMode": "basic",
+			  "minVizHeight": 10,
+			  "minVizWidth": 0,
 			  "orientation": "horizontal",
 			  "reduceOptions": {
 				"calcs": [
@@ -711,7 +601,7 @@
 			  },
 			  "showUnfilled": true
 			},
-			"pluginVersion": "8.4.2",
+			"pluginVersion": "9.0.2",
 			"targets": [
 			  {
 				"alias": "",
@@ -728,6 +618,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -751,11 +645,13 @@
 			  "h": 10,
 			  "w": 4,
 			  "x": 8,
-			  "y": 14
+			  "y": 13
 			},
 			"id": 17,
 			"options": {
 			  "displayMode": "basic",
+			  "minVizHeight": 10,
+			  "minVizWidth": 0,
 			  "orientation": "horizontal",
 			  "reduceOptions": {
 				"calcs": [
@@ -767,7 +663,7 @@
 			  },
 			  "showUnfilled": true
 			},
-			"pluginVersion": "8.4.2",
+			"pluginVersion": "9.0.2",
 			"targets": [
 			  {
 				"alias": "",
@@ -784,6 +680,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -806,11 +706,13 @@
 			  "h": 10,
 			  "w": 4,
 			  "x": 12,
-			  "y": 14
+			  "y": 13
 			},
 			"id": 18,
 			"options": {
 			  "displayMode": "basic",
+			  "minVizHeight": 10,
+			  "minVizWidth": 0,
 			  "orientation": "horizontal",
 			  "reduceOptions": {
 				"calcs": [
@@ -822,7 +724,7 @@
 			  },
 			  "showUnfilled": true
 			},
-			"pluginVersion": "8.4.2",
+			"pluginVersion": "9.0.2",
 			"targets": [
 			  {
 				"alias": "",
@@ -839,6 +741,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -862,11 +768,13 @@
 			  "h": 10,
 			  "w": 4,
 			  "x": 16,
-			  "y": 14
+			  "y": 13
 			},
 			"id": 60,
 			"options": {
 			  "displayMode": "basic",
+			  "minVizHeight": 10,
+			  "minVizWidth": 0,
 			  "orientation": "horizontal",
 			  "reduceOptions": {
 				"calcs": [
@@ -878,7 +786,7 @@
 			  },
 			  "showUnfilled": true
 			},
-			"pluginVersion": "8.4.2",
+			"pluginVersion": "9.0.2",
 			"targets": [
 			  {
 				"alias": "",
@@ -895,6 +803,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -917,11 +829,13 @@
 			  "h": 10,
 			  "w": 4,
 			  "x": 20,
-			  "y": 14
+			  "y": 13
 			},
 			"id": 61,
 			"options": {
 			  "displayMode": "basic",
+			  "minVizHeight": 10,
+			  "minVizWidth": 0,
 			  "orientation": "horizontal",
 			  "reduceOptions": {
 				"calcs": [
@@ -933,7 +847,7 @@
 			  },
 			  "showUnfilled": true
 			},
-			"pluginVersion": "8.4.2",
+			"pluginVersion": "9.0.2",
 			"targets": [
 			  {
 				"alias": "",
@@ -950,20 +864,37 @@
 			"type": "bargauge"
 		  }
 		],
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "TCQR7qYnz"
+			},
+			"refId": "A"
+		  }
+		],
 		"title": "War Attacks",
 		"type": "row"
 	  },
 	  {
 		"collapsed": true,
+		"datasource": {
+		  "type": "mssql",
+		  "uid": "TCQR7qYnz"
+		},
 		"gridPos": {
 		  "h": 1,
 		  "w": 24,
 		  "x": 0,
-		  "y": 3
+		  "y": 2
 		},
 		"id": 13,
 		"panels": [
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1053,6 +984,10 @@
 			"type": "table"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1109,6 +1044,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1165,6 +1104,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1221,6 +1164,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1276,6 +1223,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1332,6 +1283,10 @@
 			"type": "bargauge"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1387,20 +1342,37 @@
 			"type": "bargauge"
 		  }
 		],
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "TCQR7qYnz"
+			},
+			"refId": "A"
+		  }
+		],
 		"title": "War Defenses",
 		"type": "row"
 	  },
 	  {
 		"collapsed": true,
+		"datasource": {
+		  "type": "mssql",
+		  "uid": "TCQR7qYnz"
+		},
 		"gridPos": {
 		  "h": 1,
 		  "w": 24,
 		  "x": 0,
-		  "y": 4
+		  "y": 3
 		},
 		"id": 24,
 		"panels": [
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1486,6 +1458,10 @@
 			"type": "table"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1570,6 +1546,10 @@
 			"type": "timeseries"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1654,6 +1634,10 @@
 			"type": "timeseries"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1734,20 +1718,37 @@
 			"type": "timeseries"
 		  }
 		],
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "TCQR7qYnz"
+			},
+			"refId": "A"
+		  }
+		],
 		"title": "Clan",
 		"type": "row"
 	  },
 	  {
 		"collapsed": true,
+		"datasource": {
+		  "type": "mssql",
+		  "uid": "TCQR7qYnz"
+		},
 		"gridPos": {
 		  "h": 1,
 		  "w": 24,
 		  "x": 0,
-		  "y": 5
+		  "y": 4
 		},
 		"id": 30,
 		"panels": [
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1805,6 +1806,10 @@
 			"type": "table"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1891,6 +1896,10 @@
 			"type": "timeseries"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -1977,6 +1986,10 @@
 			"type": "timeseries"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -2064,6 +2077,10 @@
 			"type": "timeseries"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -2150,20 +2167,37 @@
 			"type": "timeseries"
 		  }
 		],
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "TCQR7qYnz"
+			},
+			"refId": "A"
+		  }
+		],
 		"title": "Clan Members",
 		"type": "row"
 	  },
 	  {
 		"collapsed": true,
+		"datasource": {
+		  "type": "mssql",
+		  "uid": "TCQR7qYnz"
+		},
 		"gridPos": {
 		  "h": 1,
 		  "w": 24,
 		  "x": 0,
-		  "y": 6
+		  "y": 5
 		},
 		"id": 43,
 		"panels": [
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -2240,6 +2274,10 @@
 			"type": "table"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -2317,6 +2355,10 @@
 			"type": "table"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -2393,20 +2435,37 @@
 			"type": "table"
 		  }
 		],
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "TCQR7qYnz"
+			},
+			"refId": "A"
+		  }
+		],
 		"title": "Attacks by Townhall",
 		"type": "row"
 	  },
 	  {
 		"collapsed": true,
+		"datasource": {
+		  "type": "mssql",
+		  "uid": "TCQR7qYnz"
+		},
 		"gridPos": {
 		  "h": 1,
 		  "w": 24,
 		  "x": 0,
-		  "y": 7
+		  "y": 6
 		},
 		"id": 51,
 		"panels": [
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"fieldConfig": {
 			  "defaults": {
 				"color": {
@@ -2466,6 +2525,10 @@
 			"type": "table"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"gridPos": {
 			  "h": 10,
 			  "w": 8,
@@ -2569,6 +2632,10 @@
 			"type": "michaeldmoore-scatter-panel"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"gridPos": {
 			  "h": 10,
 			  "w": 8,
@@ -2673,6 +2740,10 @@
 			"type": "michaeldmoore-scatter-panel"
 		  },
 		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+			},
 			"gridPos": {
 			  "h": 10,
 			  "w": 8,
@@ -2777,48 +2848,91 @@
 			"type": "michaeldmoore-scatter-panel"
 		  }
 		],
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "mssql",
+			  "uid": "TCQR7qYnz"
+			},
+			"refId": "A"
+		  }
+		],
 		"title": "Attacks by Townhall diff",
 		"type": "row"
 	  }
 	],
-	"schemaVersion": 35,
+	"schemaVersion": 36,
 	"style": "dark",
 	"tags": [],
 	"templating": {
 	  "list": [
 		{
+		  "current": {
+			"selected": false,
+			"text": "Yes",
+			"value": "Yes"
+		  },
+		  "hide": 0,
+		  "includeAll": false,
+		  "label": "Only Current Members",
+		  "multi": false,
+		  "name": "onlycurrentmembers",
+		  "options": [
+			{
+			  "selected": true,
+			  "text": "Yes",
+			  "value": "Yes"
+			},
+			{
+			  "selected": false,
+			  "text": "No",
+			  "value": "No"
+			}
+		  ],
+		  "query": "Yes,No",
+		  "queryValue": "",
+		  "skipUrlSync": false,
+		  "type": "custom"
+		},
+		{
 		  "current": {},
-		  "definition": "select tag from league_war_clans\nunion select tag from war_clans\nunion select tag from clans\norder by tag",
+		  "datasource": {
+			"type": "mssql",
+			"uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+		  },
+		  "definition": "select concat(tag, ',', name) from league_war_clans where '$onlycurrentmembers' = 'No'\nunion select concat(tag, ',', name) from war_clans where '$onlycurrentmembers' = 'No'\nunion select concat(tag, ',', name) from clans",
 		  "hide": 0,
 		  "includeAll": true,
 		  "label": "Clans",
 		  "multi": true,
 		  "name": "clans",
 		  "options": [],
-		  "query": "select tag from league_war_clans\nunion select tag from war_clans\nunion select tag from clans\norder by tag",
+		  "query": "select concat(tag, ',', name) from league_war_clans where '$onlycurrentmembers' = 'No'\nunion select concat(tag, ',', name) from war_clans where '$onlycurrentmembers' = 'No'\nunion select concat(tag, ',', name) from clans",
 		  "refresh": 1,
-		  "regex": "",
+		  "regex": "/^(?<value>[^,]*),(?<text>.*)$/",
 		  "skipUrlSync": false,
-		  "sort": 0,
-		  "type": "query",
-		  "datasource": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+		  "sort": 1,
+		  "type": "query"
 		},
 		{
 		  "current": {},
-		  "definition": "select tag from league_war_clan_members\nunion select tag from war_clan_members\nunion select tag from members\norder by tag",
+		  "datasource": {
+			"type": "mssql",
+			"uid": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+		  },
+		  "definition": "declare @latest_request_id int = (select top 1 id from requests order by timestamp desc)\ndeclare @latest_members table (tag nvarchar(16), name nvarchar(256))\ninsert into @latest_members\nselect\n\tm.tag,\n\tm.name\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tc.tag in ('#2JQJQYQU')\n\tand r.id = @latest_request_id\n\nselect\n\tconcat(lwcm.tag, ',', lwcm.name)\nfrom\n\tleague_war_clans lwc\n\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\nwhere\n\tlwc.tag in ($clans)\n\tand (lwcm.tag in (select tag from @latest_members) or '$onlycurrentmembers' = 'No')\nunion\nselect\n\tconcat(wcm.tag, ',', wcm.name)\nfrom\n\twar_clans wc\n\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\nwhere\n\twc.tag in ($clans)\n\tand (wcm.tag in (select tag from @latest_members) or '$onlycurrentmembers' = 'No')\nunion\nselect\n\tconcat(m.tag, ',', m.name)\nfrom\n\tclans c\n\tjoin members m on m.clan_id = c.id\nwhere\n\tc.tag in ($clans)\n\tand (m.tag in (select tag from @latest_members) or '$onlycurrentmembers' = 'No')",
 		  "hide": 0,
 		  "includeAll": true,
 		  "label": "Players",
 		  "multi": true,
 		  "name": "players",
 		  "options": [],
-		  "query": "select tag from league_war_clan_members\nunion select tag from war_clan_members\nunion select tag from members\norder by tag",
+		  "query": "declare @latest_request_id int = (select top 1 id from requests order by timestamp desc)\ndeclare @latest_members table (tag nvarchar(16), name nvarchar(256))\ninsert into @latest_members\nselect\n\tm.tag,\n\tm.name\nfrom\n\trequests r\n\tjoin clans c on c.request_id = r.id\n\tjoin members m on m.clan_id = c.id\nwhere\n\tc.tag in ('#2JQJQYQU')\n\tand r.id = @latest_request_id\n\nselect\n\tconcat(lwcm.tag, ',', lwcm.name)\nfrom\n\tleague_war_clans lwc\n\tjoin league_war_clan_members lwcm on lwcm.league_war_clan_id = lwc.id\nwhere\n\tlwc.tag in ($clans)\n\tand (lwcm.tag in (select tag from @latest_members) or '$onlycurrentmembers' = 'No')\nunion\nselect\n\tconcat(wcm.tag, ',', wcm.name)\nfrom\n\twar_clans wc\n\tjoin war_clan_members wcm on wcm.war_clan_id = wc.id\nwhere\n\twc.tag in ($clans)\n\tand (wcm.tag in (select tag from @latest_members) or '$onlycurrentmembers' = 'No')\nunion\nselect\n\tconcat(m.tag, ',', m.name)\nfrom\n\tclans c\n\tjoin members m on m.clan_id = c.id\nwhere\n\tc.tag in ($clans)\n\tand (m.tag in (select tag from @latest_members) or '$onlycurrentmembers' = 'No')",
 		  "refresh": 1,
-		  "regex": "",
+		  "regex": "/^(?<value>[^,]*),(?<text>.*)$/",
 		  "skipUrlSync": false,
-		  "sort": 0,
-		  "type": "query",
-		  "datasource": "${DS_LOCALHOST_CLASH_OF_CLANS}"
+		  "sort": 1,
+		  "type": "query"
 		},
 		{
 		  "current": {
@@ -2875,34 +2989,6 @@
 		  "queryValue": "",
 		  "skipUrlSync": false,
 		  "type": "custom"
-		},
-		{
-		  "current": {
-			"selected": true,
-			"text": "Yes",
-			"value": "Yes"
-		  },
-		  "hide": 0,
-		  "includeAll": false,
-		  "label": "Only Current Members",
-		  "multi": false,
-		  "name": "onlycurrentmembers",
-		  "options": [
-			{
-			  "selected": true,
-			  "text": "Yes",
-			  "value": "Yes"
-			},
-			{
-			  "selected": false,
-			  "text": "No",
-			  "value": "No"
-			}
-		  ],
-		  "query": "Yes,No",
-		  "queryValue": "",
-		  "skipUrlSync": false,
-		  "type": "custom"
 		}
 	  ]
 	},
@@ -2914,6 +3000,6 @@
 	"timezone": "",
 	"title": "Clan Statistics",
 	"uid": "H00ZeJEnk",
-	"version": 27,
+	"version": 29,
 	"weekStart": ""
   }
