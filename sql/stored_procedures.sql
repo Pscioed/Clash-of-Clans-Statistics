@@ -806,3 +806,171 @@ create procedure usp_war_state_get (
 	where
 		start_time = @start_time
 end
+go
+create procedure usp_clan_capital_districts_upsert (
+	@clan_id int = null,
+	@district_id int = null,
+	@name nvarchar(32) null,
+	@district_hall_level int null
+) as begin
+	declare @id int = null
+	select @id = id from clan_capital_districts where clan_id = @clan_id and district_id = @district_id
+	if @id is null begin
+		insert into clan_capital_districts (
+			clan_id,
+			district_id,
+			name,
+			district_hall_level
+		) values (
+			@clan_id,
+			@district_id,
+			@name,
+			@district_hall_level
+		)
+		select scope_identity()
+	end else begin
+		update clan_capital_districts set
+			clan_id = isnull(@clan_id, clan_id),
+			district_id = isnull(@district_id, district_id),
+			name = isnull(@name, name),
+			district_hall_level = isnull(@district_hall_level, district_hall_level)
+		where id = @id
+		select @id
+	end
+end
+go
+alter procedure usp_clans_upsert (
+	@request_id int = null,
+	@tag nvarchar(16) = null,
+	@name nvarchar(256) = null,
+	@description nvarchar(max) = null,
+	@location_id int = null,
+	@location_name nvarchar(256) = null,
+	@location_is_country bit = null,
+	@location_country_code nvarchar(8) = null,
+	@badge_urls_small nvarchar(256) = null,
+	@badge_urls_large nvarchar(256) = null,
+	@badge_urls_medium nvarchar(256) = null,
+	@clan_level int = null,
+	@clan_points int = null,
+	@clan_versus_points int = null,
+	@required_trophies int = null,
+	@war_frequency nvarchar(256) = null,
+	@war_win_streak int = null,
+	@war_wins int = null,
+	@war_ties int = null,
+	@war_losses int = null,
+	@is_war_log_public bit = null,
+	@war_league_id int = null,
+	@war_league_name nvarchar(256) = null,
+	@members int = null,
+	@chat_language_id int = null,
+	@chat_language_name nvarchar(256) = null,
+	@chat_language_language_code nvarchar(8) = null,
+	@required_versus_trophies int = null,
+	@required_townhall_level int = null,
+	@clan_capital_capital_hall_level int = null
+) as begin
+	declare @id int = null
+	select @id = id from clans where request_id = @request_id and tag = @tag
+	if @id is null begin
+		insert into clans (
+			request_id,
+			tag,
+			name,
+			description,
+			location_id,
+			location_name,
+			location_is_country,
+			location_country_code,
+			badge_urls_small,
+			badge_urls_large,
+			badge_urls_medium,
+			clan_level,
+			clan_points,
+			clan_versus_points,
+			required_trophies,
+			war_frequency,
+			war_win_streak,
+			war_wins,
+			war_ties,
+			war_losses,
+			is_war_log_public,
+			war_league_id,
+			war_league_name,
+			members,
+			chat_language_id,
+			chat_language_name,
+			chat_language_language_code,
+			required_versus_trophies,
+			required_townhall_level,
+			clan_capital_capital_hall_level
+		) values (
+			@request_id,
+			@tag,
+			@name,
+			@description,
+			@location_id,
+			@location_name,
+			@location_is_country,
+			@location_country_code,
+			@badge_urls_small,
+			@badge_urls_large,
+			@badge_urls_medium,
+			@clan_level,
+			@clan_points,
+			@clan_versus_points,
+			@required_trophies,
+			@war_frequency,
+			@war_win_streak,
+			@war_wins,
+			@war_ties,
+			@war_losses,
+			@is_war_log_public,
+			@war_league_id,
+			@war_league_name,
+			@members,
+			@chat_language_id,
+			@chat_language_name,
+			@chat_language_language_code,
+			@required_versus_trophies,
+			@required_townhall_level,
+			@clan_capital_capital_hall_level
+		)
+		select scope_identity()
+	end else begin
+		update clans set
+			request_id = isnull(@request_id, request_id),
+			tag = isnull(@tag, tag),
+			name = isnull(@name, name),
+			description = isnull(@description, description),
+			location_id = isnull(@location_id, location_id),
+			location_name = isnull(@location_name, location_name),
+			location_is_country = isnull(@location_is_country, location_is_country),
+			location_country_code = isnull(@location_country_code, location_country_code),
+			badge_urls_small = isnull(@badge_urls_small, badge_urls_small),
+			badge_urls_large = isnull(@badge_urls_large, badge_urls_large),
+			badge_urls_medium = isnull(@badge_urls_medium, badge_urls_medium),
+			clan_level = isnull(@clan_level, clan_level),
+			clan_points = isnull(@clan_points, clan_points),
+			clan_versus_points = isnull(@clan_versus_points, clan_versus_points),
+			required_trophies = isnull(@required_trophies, required_trophies),
+			war_frequency = isnull(@war_frequency, war_frequency),
+			war_win_streak = isnull(@war_win_streak, war_win_streak),
+			war_wins = isnull(@war_wins, war_wins),
+			war_ties = isnull(@war_ties, war_ties),
+			war_losses = isnull(@war_losses, war_losses),
+			is_war_log_public = isnull(@is_war_log_public, is_war_log_public),
+			war_league_id = isnull(@war_league_id, war_league_id),
+			war_league_name = isnull(@war_league_name, war_league_name),
+			members = isnull(@members, members),
+			chat_language_id = isnull(@chat_language_id, chat_language_id),
+			chat_language_name = isnull(@chat_language_name, chat_language_name),
+			chat_language_language_code = isnull(@chat_language_language_code, chat_language_language_code),
+			required_versus_trophies = isnull(@required_versus_trophies, required_versus_trophies),
+			required_townhall_level = isnull(@required_townhall_level, required_townhall_level),
+			clan_capital_capital_hall_level = isnull(@clan_capital_capital_hall_level, clan_capital_capital_hall_level)
+		where id = @id
+		select @id
+	end
+end

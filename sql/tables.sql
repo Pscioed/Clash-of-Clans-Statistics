@@ -177,3 +177,11 @@ create table war_attacks (
 	[order] int not null,
 	duration int not null
 )
+alter table clans add clan_capital_capital_hall_level int null
+create table clan_capital_districts (
+	id int identity(1, 1) primary key,
+	clan_id int not null foreign key references clans(id),
+	district_id int not null,
+	name nvarchar(32) not null,
+	district_hall_level int not null
+)

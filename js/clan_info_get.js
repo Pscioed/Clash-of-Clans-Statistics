@@ -54,10 +54,15 @@ async function insert_clan (pool, clan, request_id) {
 		.input('chat_language_language_code', clan.chatLanguage.languageCode)
 		.input('required_versus_trophies', clan.requiredVersusTrophies)
 		.input('required_townhall_level', clan.requiredTownhallLevel)
+		.input('clan_capital_capital_hall_level', clan.clanCapital.capitalHallLevel)
 		.execute('usp_clans_upsert');
 	const clan_id = clan_result.recordset[0][''];
 
-	await Promise.all(clan.memberList.map(async (member) => await insert_member(pool, member, clan_id)));
+	const insert_member_tasks = clan.memberList.map(async (member) => await insert_member(pool, member, clan_id));
+
+	const insert_clan_capital_district_tasks = clan.clanCapital.districts.map(async (clan_capital_district) => await insert_clan_capital_district(pool, clan_capital_district, clan_id));
+
+	await Promise.all(insert_member_tasks.concat(insert_clan_capital_district_tasks));
 }
 
 /**
@@ -84,6 +89,21 @@ async function insert_member (pool, member, clan_id) {
 		.input('donations', member.donations)
 		.input('donations_received', member.donationsReceived)
 		.execute('usp_members_upsert');
+}
+
+/**
+ * Inserts member data into the database
+ * @param {object} pool The sql connection pool
+ * @param {object} clan_capital_district The clan capital district details to insert
+ * @param {int} clan_id The clan id
+ */
+async function insert_clan_capital_district (pool, clan_capital_district, clan_id) {
+	await pool.request()
+		.input('clan_id', clan_id)
+		.input('district_id', clan_capital_district.id)
+		.input('name', clan_capital_district.name)
+		.input('district_hall_level', clan_capital_district.districtHallLevel)
+		.execute('usp_clan_capital_districts_upsert');
 }
 
 module.exports = {
